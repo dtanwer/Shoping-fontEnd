@@ -1,0 +1,11 @@
+/* .productDetails{
+    overflow-y: scroll;
+} */
+.bankOffers h5{
+    display: flex;
+}
+.bankOffers .icon{
+    display: flex;
+    color: green;
+    margin-right: 10px;
+}

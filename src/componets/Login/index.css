@@ -1,0 +1,77 @@
+.login{
+    margin: 23%;
+    
+}
+.myInput{
+    width: 20rem;
+    border: 1px solid rgb(238, 238, 238);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    color: rgb(114, 134, 163);
+    border-radius: 10px;
+
+}
+.myInput{
+
+    /* width: 20rem; */
+    display: flex;
+}
+.myInput input{
+    border: none;
+    font-size: medium;
+}
+.myInput input:focus{
+    outline: none;
+}
+.icon{
+    font-size:large;
+    margin-right: 10px;
+}
+
+.submitBtn button{
+    width: 22rem;
+    cursor: pointer;
+    background-color: rgb(251, 100, 27);
+    color: white;
+    font-size: large;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+}
+.link{
+    color: #b8b8bd;
+    font-weight: 500;
+    line-height: 2;
+    margin-bottom: 1rem;
+}
+.link p span{
+    cursor: pointer;
+    font-size: large;
+    color: rgb(65, 114, 252);
+    
+}
+.link .smallHeading{
+    padding-left: 3rem; 
+}
+
+.btns button{
+    cursor: pointer;
+    background-color: rgb(58, 99, 253);
+    color: white;
+    border: none;
+    width: 100%;
+    font-size: medium;
+}
+.btns{
+    cursor: pointer;
+    display: flex;
+    width: 21rem;
+    background-color: rgb(58, 99, 253); 
+    padding: 7px;
+    border-radius: 8px;
+}
+.btns img{
+    cursor: pointer;
+    height:30px;
+    width:30px;
+}

@@ -1,0 +1,41 @@
+.productDetail{
+    display: flex;
+    margin: 20px;
+    position: relative;
+}
+.buyingBtns{
+    text-align: center;
+}
+.buyingBtns button{
+    width: 15rem;
+    height: 5rem;
+    font-size: larger;
+    border: none;
+    color: white;
+    margin-right: 5rem;
+    margin-left: 5rem;
+}
+.buyingBtns .cartBtn{
+    background-color: rgb(255, 159, 0);
+    cursor: pointer;
+}
+.buyingBtns .cartBtn:disabled{
+    cursor: not-allowed;
+    background-color: rgb(220, 173, 96);
+}
+.buyingBtns .buyBtn:disabled{
+    cursor: not-allowed;
+    background-color: rgb(243, 131, 75);
+}
+.buyingBtns .buyBtn{
+    cursor: pointer;
+    background-color: rgb(251, 100, 27);   
+}
+.outofStock1{
+    position: absolute;
+    font-size: 3rem;
+    color: red;
+    font-weight: bold;
+    top: 32rem;
+    left: 20rem;
+}

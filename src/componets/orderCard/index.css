@@ -1,0 +1,61 @@
+.orderCard{
+    position: relative;
+    background-color: #ffff;
+    min-width:  1100px;
+    height: 300px;
+    margin-top: 20px;
+    margin: 20px 200px;
+    display: flex;
+    padding: 20px 10px;
+    align-items: center;
+}
+.orderCard .img img{
+   width: 350px;
+   border-radius: 20px;
+}
+.orderCard .img{
+   margin-left: 20px;
+   margin-right: 20px;
+}
+.orderCard .steps{
+   width: 900px;
+   padding: 50px 10px;
+}
+.button-1 {
+  background-color: #EA4C89;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-1:hover{
+  background-color: #F082AC;
+}
+.button-1:disabled{
+  background-color: #F082AC;
+}
+.cancelButton{
+    position: absolute;
+    right: 50px;
+    bottom: 20px;
+}

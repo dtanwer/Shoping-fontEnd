@@ -1,0 +1,78 @@
+.profile{
+    display:grid;
+    grid-template-columns: 0.5fr 1fr;
+    gap: 10px;
+    height: 90vh;
+    background-color: rgb(241, 243, 246);
+}
+.profile .item{
+    background-color: rgb(255, 255, 255);
+    margin: 50px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    text-align: center;
+}
+.profile .left{
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    text-align: center;
+    padding-bottom: 10px;
+    margin-top: 5px;
+}
+.profile .persenalDetails .form{
+    padding-left: 4rem;
+}
+.left .img{
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.left .img img{
+   width: 150px;
+   height: 150px;
+   margin-top: 30px;
+   border-radius: 150px;
+}
+.item .info li{
+    list-style: none;
+    margin-top: 10px;
+}
+.item .info li span{
+    font-size: 20px;
+}
+.item .heading{
+   text-align: start;
+   padding: 2rem 5rem;
+}
+.item .address{
+   text-align: start;
+   padding: 2rem 5rem;
+   list-style: none;
+}
+.hellow{
+    margin: 50px;
+    margin-bottom: 5px;
+    /* border-radius: 10px; */
+    display: flex;
+    align-items: center;
+    background-color: #ffff;
+    height: 100px;
+    padding-bottom: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.hellow .img img{
+    display: flex;
+    margin-left: 40px;
+    margin-right: 30px;
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+}
+.changeImg{
+    margin-top: 20px;
+    background-color: rgb(40, 116, 240);
+    color: #ffff;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+
+}

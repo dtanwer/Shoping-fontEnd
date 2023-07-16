@@ -1,0 +1,15 @@
+.categoryCard{
+    width: 200px;
+    height: 150px;
+    text-align: center;
+    padding-top: 20px;
+    cursor: pointer;
+    word-wrap: break-word
+}
+.categoryCard img{
+    width: 5rem;
+    height: 5rem;
+}
+.categoryCard h3{
+   margin: 0;
+}

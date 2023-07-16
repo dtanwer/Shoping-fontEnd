@@ -1,0 +1,15 @@
+.rating{
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    padding: 5px;
+    background-color: green;
+    color: #ffff;
+    width:  70px;
+}
+.rating span{
+    padding-left: 4px;
+}
+.rating .icon{
+    margin-left: 3px;
+}

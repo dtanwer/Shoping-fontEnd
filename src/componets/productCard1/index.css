@@ -1,0 +1,52 @@
+.productCard1{
+    cursor: pointer;
+    width: 510px;
+    min-height: 400px;
+    word-wrap: break-word;
+    text-align: center;
+    padding: 10px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: .5s;
+}
+.productCard1:hover{
+    transform:scale3d(1.1,1.1,1.1);
+
+}
+.productCard1 img{
+    border-radius: 10px;
+    width: 28rem;
+    height: 15rem;
+}
+.productCard1 .content{
+   padding: 10px;
+}
+.productCard1 .productRating{
+    margin: 10px;
+}
+.outofStock{
+    font-size: 25px;
+    font-weight: bold;
+    color: red;
+}
+.productCard1 .content .name{
+    font-weight: bold;
+    font-size: 1.2rem;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    max-height: 5px;
+}
+.productCard1 .content .price{
+    margin: 10px;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.MRP{
+    margin-left: 10px;
+    text-decoration: line-through;
+    color:gray;
+}
+.discount{
+    color: green;
+    font-size: 20px;
+    font-weight: bold;
+}

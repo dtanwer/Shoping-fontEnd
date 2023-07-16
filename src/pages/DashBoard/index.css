@@ -1,0 +1,21 @@
+.dashBoard .cards{
+    display: flex;
+    justify-content: space-around;
+}
+.dashBoard .cards .item{
+    padding: 40px;
+    background-color: rgba(40, 117, 240, 0.421);
+    margin-top: 50px;
+    text-align: center;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.dashBoard .cards .item img{
+    width: 150px;
+    height: 150px;
+}
+.earnings{
+    width: 400px;
+    margin: auto;
+    margin-top: 100px;
+}

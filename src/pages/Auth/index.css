@@ -1,0 +1,21 @@
+.auth{
+    margin: 0;
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    height: 100%;
+}
+.auth .left{
+   background-color: rgb(40, 116, 240);
+    text-align: center;
+}
+.auth .left img{
+    margin-top: 25%;
+}
+.auth .left .content{
+   color: #ffff;
+   text-align: start;
+   padding: 30px;
+}
+.auth .right{
+    position: relative;
+}
