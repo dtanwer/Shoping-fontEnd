@@ -6,7 +6,7 @@ import { addProduct, updateMyProduct } from '../../services/product.service';
 import { useSelector } from 'react-redux'
 const { Option } = Select;
 const { TextArea } = Input;
-const InputForm = ({ images,data,update,setImage,setModalOpen}) => {
+const InputForm = ({ images,data,update,setFileList,setModalOpen}) => {
     const [messageApi, contextHolder] = message.useMessage();
     const user = useSelector((state) => state.auth.user)
     const [isDraft, setDraft] = useState(false);
@@ -47,7 +47,8 @@ const InputForm = ({ images,data,update,setImage,setModalOpen}) => {
                 const res = await addProduct({ ...values, images, img: images[0], vendorId: user._id, isDraft })
                 info()
                 onReset();
-                console.log(res.data);
+                setFileList([]);
+                // console.log(res.data);
             } catch (error) {
                 console.log(error)
             }
@@ -113,6 +114,9 @@ const InputForm = ({ images,data,update,setImage,setModalOpen}) => {
                     <Input />
                 </Form.Item>
                 <Form.Item name="price" label="Price" rules={[{ required: true, },]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="discountPercentage" label="Discount" rules={[{ required: true, },]}>
                     <Input />
                 </Form.Item>
                 <Form.Item name="stock" label="Stock" rules={[{ required: true, },]}>

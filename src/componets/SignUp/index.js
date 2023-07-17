@@ -65,6 +65,12 @@ const SignUp = ({ setlogin }) => {
       error("Confir Password Did not Match !")
     }
   }
+  const handelNumberInput=(e)=>{
+    if(!isNaN(e.target.value))
+    {
+      setPhone(e.target.value);
+    }
+  }
 
 
   return (
@@ -78,7 +84,7 @@ const SignUp = ({ setlogin }) => {
           </div>
           <div className="phone myInput">
             <PhoneAndroidIcon className='icon' />
-            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder=' Mobile number' required />
+            <input type="text" value={phone} onChange={handelNumberInput} placeholder=' Mobile number' maxLength={10} required />
           </div>
           <div className="password myInput">
             <LockOpenIcon className='icon' />

@@ -16,6 +16,7 @@ const DashBoard = () => {
     const [order, setOrders] = useState(false);
     const [client, setClient] = useState(false);
     const [oderNum, setOderNum] = useState(0);
+    const [deleverNum, setDeleverNum] = useState(0);
     const [productNum, setProductNum] = useState(0);
     const [money, setMoney] = useState(0);
     const showModel = (mode) => {
@@ -49,13 +50,21 @@ const DashBoard = () => {
     const [data, setData] = useState([]);
 
     const getOrdersForVender = async () => {
+        let cost=0
+        let cnt=0;
         try {
             const res = await getOrders(user._id);
             console.log(res.data)
             setOderNum(res.data.length)
             res?.data?.map((item) => {
-                setMoney(money + parseInt(item.price));
+                if(item.status==='delivered')
+                {
+                    cost+=parseInt(item.price);
+                    cnt++;
+                }
             })
+            setDeleverNum(cnt)
+            setMoney(cost);
         } catch (error) {
             console.log(error)
         }
@@ -119,7 +128,7 @@ const DashBoard = () => {
                 <h3>Total Earnings</h3>
                 <Row gutter={16}>
                     <Col span={12}>
-                        <Statistic title="Total Orders" value={oderNum} />
+                        <Statistic title="Total Oder Completed" value={deleverNum} />
                     </Col>
                     <Col span={12}>
                         <Statistic title="Account Balance (RS)" value={money} precision={2} />

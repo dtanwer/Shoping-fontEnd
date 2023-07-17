@@ -51,7 +51,7 @@ const Navbar = () => {
                     }
 
                     {isLogin && <div className="item" onClick={() => navigate('/cart')}>
-                        <Badge count={Object.keys(user?.cart).length} className='item'>
+                        <Badge count={Object?.keys(user?.cart??[])?.length} className='item'>
                         <ShoppingCartIcon  style={{color:"white"}} /> <span  style={{color:"white"}}>Cart</span>
                         </Badge>
                         </div>}

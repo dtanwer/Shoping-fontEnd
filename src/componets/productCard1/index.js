@@ -14,7 +14,7 @@ function ProductCard1({data}) {
             <img src={data.img} alt="thumbnail" />
         </div>
         <div className="content">
-            <span className='name'>{data.description} </span>
+            <span className='name'>{data.title} </span>
             <span>{data.brand}</span>
             <div className="productRating">
             <Rate data={data.rating}/>

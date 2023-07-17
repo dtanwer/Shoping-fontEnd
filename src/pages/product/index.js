@@ -8,6 +8,7 @@ import { notification, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAddCart, setProductPrice, setTotalCart } from '../../features/userSlice';
 import { Padding } from '@mui/icons-material';
+import { getUser } from '../../services/auth.service';
 const Product = () => {
     const [api, contextHolder1] = notification.useNotification();
     const [messageApi, contextHolder2] = message.useMessage();
@@ -66,6 +67,9 @@ const Product = () => {
             console.log(error)
         }
     }
+
+
+    
     useEffect(() => {
         getUserProduct();
         console.log(user.cart, id);
@@ -75,6 +79,7 @@ const Product = () => {
             }
         })
     }, [])
+   
     const handelAddCart = () => {
         addProducTtoCart();
         setCartAllready(true);

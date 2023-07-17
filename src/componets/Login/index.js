@@ -75,6 +75,13 @@ const Login = ({ setlogin, handleCancel }) => {
                 showModal()
             }
             else {
+                // if(!user?.isActive)
+                // {
+                //     setMsg("User Block By Admin!!");
+                // }
+                // else{
+
+                // }
                 dispatch(setLogin(user?.data));
             }
 

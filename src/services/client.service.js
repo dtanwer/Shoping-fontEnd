@@ -1,2 +1,2 @@
 import axios from "axios";
-export const updateUser=  (data,id)=>axios.put(`https://shoping-api.vercel.app/auth/update/${id}`,data);
+export const updateUser=  (data,id)=>axios.put(`http://localhost:5000/auth/update/${id}`,data);

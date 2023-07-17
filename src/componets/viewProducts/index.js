@@ -40,7 +40,7 @@ const ViewProducts = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {record?.isDraft|| user.type==='admin' && <a onClick={() => handelEdit(record)}>Edit {record.title}</a>}
+          {(record?.isDraft || user?.type==='admin') && <a onClick={() => handelEdit(record)}>Edit</a>}
           {
             record?.isDelete ?
             <a style={{'color':"gray" ,"cursor":"not-allowed"}}>Make Stock Out</a>:
@@ -141,7 +141,7 @@ const ViewProducts = () => {
       <Modal
         title="Add Products"
         style={{ top: 0 }}
-        width={800}
+        width={1000}
         open={modalOpen}
         onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
