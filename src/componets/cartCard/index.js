@@ -3,7 +3,7 @@ import { getProduct, removeToCart } from '../../services/product.service';
 import './index.css'
 import { useDispatch } from 'react-redux';
 import { removeUserCart,setTotalCart } from '../../features/userSlice';
-function CartCard({ id ,checkOut,user}) {
+function CartCard({ id ,checkOut,user,isChange,setIsChange}) {
     const [product, setProduct] = useState({});
     const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch();

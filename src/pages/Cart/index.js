@@ -24,6 +24,7 @@ const Cart = () => {
   const [discount, setDiscount] = useState(0);
   const [delevry, setDelevry] = useState(500);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isChange, setIsChange] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -60,14 +61,22 @@ const Cart = () => {
     if (Object.keys(user.address).length !== 0) {
       setSelectedAddress(user.address[0].userAddress);
     }
-    else{
+    else {
       showModal();
     }
     if (productId) {
       setCheckOut(true);
       setProduct(getProduct(productId));
     }
+
   }, [])
+
+  useEffect(() => {
+    user.cart.map((item) => {
+      const cost = parseInt(item?.price) * parseInt(item?.quantity)
+      setTotal(total + cost);
+    })
+  }, [isChange])
 
   const getUserProduct = async (id) => {
     try {
@@ -102,8 +111,7 @@ const Cart = () => {
   }
 
   const placeOrder = async () => {
-    if(selectedAddress==="")
-    {
+    if (selectedAddress === "") {
       showModal();
       return;
     }
@@ -120,7 +128,7 @@ const Cart = () => {
             address: selectedAddress,
             productId: data._id,
             quantity: 5,
-            price:data.price,
+            price: data.price,
           })
         console.log('Oder Complete driect from BUY', res.data)
         navigate('/success')
@@ -142,7 +150,7 @@ const Cart = () => {
             address: selectedAddress,
             productId: data._id,
             quantity: 5,
-            price:data.price,
+            price: data.price,
           })
         handelRemoveCart(item.id)
         navigate('/success')
@@ -180,25 +188,24 @@ const Cart = () => {
             }
           </div>
         </div>
-        {productId?
-        ( <div className='itemsBuy'>
-          <CartCard user={user} checkOut={checkOut}   id={productId}  />
-        </div> ):
-        (<div>
-          {Object.keys(user?.cart).length !== 0 ? (<div className="items">
-            {
-              user?.cart?.map((item) => {
-
-                return (
-                  <CartCard user={user} checkOut={checkOut} total={total} setTotal={setTotal} id={item.id} key={item.id} />
-                )
-              })
-            }
-            {!checkOut && <div className="placeOrder">
-              <button onClick={() => setCheckOut(true)}>PLACE ORDER</button>
-            </div>}
-          </div>) : (<Empty description="Cart is Empty" />)}
-        </div>)}
+        {productId ?
+          (<div className='itemsBuy'>
+            <CartCard user={user} checkOut={checkOut} id={productId} />
+          </div>) :
+          (<div>
+            {Object.keys(user?.cart).length !== 0 ? (<div className="items">
+              {
+                user?.cart?.map((item) => {
+                  return (
+                    <CartCard user={user} checkOut={checkOut} id={item.id} key={item.id} isChange={isChange} setIsChange={setIsChange} />
+                  )
+                })
+              }
+              {!checkOut && <div className="placeOrder">
+                <button onClick={() => setCheckOut(true)}>PLACE ORDER</button>
+              </div>}
+            </div>) : (<Empty description="Cart is Empty" />)}
+          </div>)}
       </div>
       <div className="amountDetails">
         <div className='priceHead'>
@@ -215,9 +222,9 @@ const Cart = () => {
         <div className="total">
           <span>Total Payable</span>
           {
-            productId?
-            <span className='amount'>₹{productPrice + delevry - discount}</span>:
-            <span className='amount'>₹{totalInCart + delevry - discount}</span>
+            productId ?
+              <span className='amount'>₹{productPrice + delevry - discount}</span> :
+              <span className='amount'>₹{total + delevry - discount}</span>
           }
         </div>
         {checkOut && <div className="cupon">

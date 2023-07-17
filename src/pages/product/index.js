@@ -12,6 +12,7 @@ const Product = () => {
     const user=useSelector((state)=>state.auth.user);
     const navigate=useNavigate();
     const dispatch=useDispatch();
+    const [cartAlready,setCartAllready]=useState(false);
     const openNotification = (placement) => {
         api.info({
             message: `Notification ${placement}`,
@@ -35,8 +36,8 @@ const Product = () => {
     }
     const addProducTtoCart=async ()=>{
         try {
-            await addToCart(user._id,{id:product._id});
-            dispatch(setAddCart({id:product._id}));
+            await addToCart(user._id,{id:product._id,quantity:"1",price:product.price});
+            dispatch(setAddCart({id:product._id,quantity:"1",price:product.price}));
             dispatch(setTotalCart(parseInt(product.price)))
             
         } catch (error) {
@@ -45,10 +46,18 @@ const Product = () => {
     }
     useEffect(() => {
         getUserProduct();
-    })
+        console.log(user.cart,id);
+        user?.cart?.map((item)=>{
+            if(id===item?.id)
+            {
+                setCartAllready(true);
+            }
+        })
+    },[])
     const handelAddCart =  () => {
         openNotification('topRight')
         addProducTtoCart();
+        setCartAllready(true);
 
     }
     const handelBuy =  ()=>{
@@ -65,7 +74,8 @@ const Product = () => {
                         <CarouselProduct data={data?.images} />
                         {data.stock==='0'&& <span className='outofStock1' >Out Of Stock</span>}
                         <div className="buyingBtns">
-                            <button className='cartBtn' onClick={handelAddCart} disabled={data.stock==='0'}>Add To Cart</button>
+                            {cartAlready?<button className='cartBtn' onClick={()=>navigate('/cart')} disabled={data.stock==='0'}>Go To Cart</button>:
+                            <button className='cartBtn' onClick={handelAddCart} disabled={data.stock==='0'}>Add To Cart</button>}
                             <button className='buyBtn' onClick={handelBuy} disabled={data.stock==='0'}>Buy Now</button>
                         </div>
                     </div>
