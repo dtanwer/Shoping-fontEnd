@@ -1,3 +1,10 @@
-.productform{
-    
+.prevImg{
+    display: flex;
+    margin-bottom: 10px;
+}
+.prevImg img{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    margin-left: 10px;
 }

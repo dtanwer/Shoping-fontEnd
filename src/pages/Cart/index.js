@@ -71,11 +71,12 @@ const Cart = () => {
   }, [])
 
   useEffect(() => {
-    user.cart.map((item) => {
-      const cost = parseInt(item?.price) * parseInt(item?.quantity)
-      setTotal(total + cost);
+    let cost=0;
+    user.cart.map((item,i) => {
+       cost += (parseInt(item?.price) * parseInt(item?.quantity))  
     })
-  }, [isChange])
+    setTotal(cost);
+  }, [isChange,user.cart])
 
   const getUserProduct = async (id) => {
     try {
@@ -148,7 +149,7 @@ const Cart = () => {
             productName: data.title,
             address: selectedAddress,
             productId: data._id,
-            quantity: 5,
+            quantity: item?.quantity,
             price: data.price,
           })
         const totaloders=data.oderNum??0
@@ -198,7 +199,7 @@ const Cart = () => {
               {
                 user?.cart?.map((item) => {
                   return (
-                    <CartCard user={user} checkOut={checkOut} id={item.id} key={item.id} isChange={isChange} setIsChange={setIsChange} />
+                    <CartCard user={user} checkOut={checkOut} cart={item} id={item.id} key={item.id} isChange={isChange} setIsChange={setIsChange} />
                   )
                 })
               }

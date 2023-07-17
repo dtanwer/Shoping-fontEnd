@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react'
 import { getProduct, removeToCart } from '../../services/product.service';
 import './index.css'
 import { useDispatch } from 'react-redux';
-import { removeUserCart,setTotalCart } from '../../features/userSlice';
-function CartCard({ id ,checkOut,user,isChange,setIsChange}) {
+import { removeUserCart,setCartQuantity,setTotalCart } from '../../features/userSlice';
+function CartCard({ id ,checkOut,user,cart,isChange,setIsChange}) {
     const [product, setProduct] = useState({});
     const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function CartCard({ id ,checkOut,user,isChange,setIsChange}) {
     const handelIncrement = () => {
         if (quantity < parseInt(product?.stock)){
             setQuantity(quantity + 1)
-            
+            dispatch(setCartQuantity({...cart,quantity}))    
         }
 
         dispatch(setTotalCart(parseInt(product.price)))
@@ -31,7 +31,7 @@ function CartCard({ id ,checkOut,user,isChange,setIsChange}) {
         if (quantity > 1){
 
             setQuantity(quantity - 1)
-            dispatch(setTotalCart(-parseInt(product.price)))
+            dispatch(setCartQuantity({...cart,quantity}))  
         } 
         else {
             alert(`Can not add more then ${quantity}`);

@@ -6,7 +6,7 @@ import { addProduct, updateMyProduct } from '../../services/product.service';
 import { useSelector } from 'react-redux'
 const { Option } = Select;
 const { TextArea } = Input;
-const InputForm = ({ images,data,update }) => {
+const InputForm = ({ images,data,update,setImage,setModalOpen}) => {
     const [messageApi, contextHolder] = message.useMessage();
     const user = useSelector((state) => state.auth.user)
     const [isDraft, setDraft] = useState(false);
@@ -15,7 +15,12 @@ const InputForm = ({ images,data,update }) => {
     };
     const [form] = Form.useForm();
     const onFinish = async (values) => {
-        if(images.length<3)
+        let allImgs=images
+        if(images.length==0)
+        {
+           allImgs=data.images;
+        }
+        else if(images.length<3)
         {
             alert("Input altest 3 images of Products");
             return;
@@ -23,9 +28,13 @@ const InputForm = ({ images,data,update }) => {
         if(update)
         {
             try {
-                const res = await updateMyProduct({ ...values, images, isDraft },data._id)
+                const res = await updateMyProduct({ ...values, images:allImgs, isDraft },data._id)
                 info()
                 onReset();
+                if(update)
+                {
+                    setModalOpen(false)
+                }
                 // console.log(res.data);
             } catch (error) {
                 console.log(error)

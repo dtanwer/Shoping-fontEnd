@@ -141,12 +141,13 @@ const ViewProducts = () => {
       <Modal
         title="Add Products"
         style={{ top: 0 }}
-        width={700}
+        width={800}
         open={modalOpen}
         onOk={() => setModalOpen(false)}
         onCancel={() => setModalOpen(false)}
+        footer={[]}
       >
-        <ProductForm data={rec} update={true} />
+        <ProductForm data={rec} update={true} setModalOpen={setModalOpen} />
       </Modal>
     </div>
   )

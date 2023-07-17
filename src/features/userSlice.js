@@ -46,9 +46,20 @@ const authSlice=createSlice({
         setProductPrice:(state,action)=>{
             state.productPrice=action.payload;
         },
+        setCartQuantity:(state,action)=>{
+            state.user.cart=state.user.cart.map((item)=>{
+                if(item.id===action.payload.id)
+                {
+                    return action.payload;
+                }
+                return item;
+            });
+            console.log(state.user.cart)
+        },
+
         
     }
 })
 
-export const {setLogOut,setLogin,setUser,setProducts,setAddCart,setAddress,removeUserCart,setTotalCart,setProductPrice} = authSlice.actions;
+export const {setLogOut,setLogin,setUser,setProducts,setAddCart,setAddress,removeUserCart,setTotalCart,setProductPrice,setCartQuantity} = authSlice.actions;
 export default authSlice.reducer;

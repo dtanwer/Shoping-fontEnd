@@ -1,10 +1,10 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import './index.css'
 import { PlusOutlined } from '@ant-design/icons';
 import { Upload } from 'antd';
 import InputForm from '../inputForm';
 
-const ProductForm = ({data,update}) => {
+const ProductForm = ({ data, update,setModalOpen }) => {
     const [image, setImage] = useState([]);
     const [fileList, setFileList] = useState([]);
     const handleChange = ({ file: newFile, fileList: newFileList }) => {
@@ -35,7 +35,16 @@ const ProductForm = ({data,update}) => {
             >
                 {fileList.length >= 4 ? null : uploadButton}
             </Upload>
-            <InputForm images={image} data={data} update={update}/>
+            
+                <div className="prevImg">
+                 {update&& data.images.map((item)=>{
+                    return(
+                    <img src={item} alt="img" />
+                    )
+                })}
+                </div>
+            
+            <InputForm images={image} setImage={setImage} data={data} update={update} setModalOpen={setModalOpen} />
         </div>
     )
 }
