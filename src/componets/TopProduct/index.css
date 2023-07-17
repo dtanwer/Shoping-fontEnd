@@ -4,4 +4,19 @@
     margin-top: 20px;
     margin-left: 30px;
     flex-wrap: wrap;
+    justify-content: center;
+}
+.topProductCart img{
+    width: 250px;
+    height: 300px;
+    margin-top: 20px;
+}
+.topProductCart {
+    cursor: pointer;
+    text-align: center;
+    width: 310px;
+    height: 350px;
+    background-color: #ffff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }

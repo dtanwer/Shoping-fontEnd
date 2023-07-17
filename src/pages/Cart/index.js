@@ -20,6 +20,7 @@ const Cart = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [checkOut, setCheckOut] = useState(false);
   const [cupon, setCupon] = useState("");
+  const [msg, setMsg] = useState("");
   const [product, setProduct] = useState({});
   const [discount, setDiscount] = useState(0);
   const [delevry, setDelevry] = useState(500);
@@ -33,14 +34,21 @@ const Cart = () => {
   };
 
   const handleOk = async () => {
-    try {
-      await addAddresToUser(user._id, { userAddress: add });
-      dispatch(setAddress({ userAddress: add }))
-      setSelectedAddress(add);
-      setAdd("")
-      setIsModalOpen(false);
-    } catch (error) {
-      console.log(error)
+    if(add!=="")
+    {
+
+      try {
+        await addAddresToUser(user._id, { userAddress: add });
+        dispatch(setAddress({ userAddress: add }))
+        setSelectedAddress(add);
+        setAdd("")
+        setIsModalOpen(false);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    else{
+      setMsg("Please Input Address !!")
     }
 
 
@@ -48,6 +56,7 @@ const Cart = () => {
 
   const handleCancel = () => {
     setIsModalOpen(false);
+    setMsg("")
   };
 
   const handelAddAddress = () => {
@@ -242,9 +251,10 @@ const Cart = () => {
       <Modal title="Input Your Address" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <input type="text"
           value={add} onChange={(e) => setAdd(e.target.value)}
-          style={{ padding: "10px", fontSize: "18px", width: "19rem" }} />
+          style={{ padding: "10px", fontSize: "18px", width: "19rem" }} /> <br /> 
+          <span style={{color:"red",paddingTop: "20px", fontSize: "15px"}}>{msg}</span>
       </Modal>
-      <AddAddress isModalOpen1={isModalOpen1} setIsModalOpen1={setIsModalOpen1} setSelectedAddress={setSelectedAddress} />
+      <AddAddress isModalOpen1={isModalOpen1} setIsModalOpen1={setIsModalOpen1} selectedAddress={selectedAddress} setSelectedAddress={setSelectedAddress} />
 
     </div>
   )
