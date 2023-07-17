@@ -20,8 +20,10 @@ function CartCard({ id ,checkOut,user,isChange,setIsChange}) {
 
     },[])
     const handelIncrement = () => {
-        if (quantity < parseInt(product?.stock))
+        if (quantity < parseInt(product?.stock)){
             setQuantity(quantity + 1)
+            
+        }
 
         dispatch(setTotalCart(parseInt(product.price)))
     }

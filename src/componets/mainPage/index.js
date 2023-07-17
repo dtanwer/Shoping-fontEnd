@@ -5,8 +5,11 @@ import TopProduct from '../TopProduct'
 function MainPage() {
   return (
     <div>
-        <Category/> 
-        <TopProduct/> 
+      <Category />
+      <div style={{margin:"40px",textAlign:"center"}}>
+        <h1>Top Products</h1>
+      </div>
+      <TopProduct />
     </div>
   )
 }

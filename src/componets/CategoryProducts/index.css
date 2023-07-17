@@ -1,0 +1,7 @@
+.topProduct{
+    display: flex;
+    gap: 30px 30px;
+    margin-top: 20px;
+    margin-left: 30px;
+    flex-wrap: wrap;
+}

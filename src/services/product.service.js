@@ -3,6 +3,7 @@ export const addProduct=  (data)=>axios.post('https://shoping-api.vercel.app/pro
 export const getProducts= (id)=>axios.get(`https://shoping-api.vercel.app/product/vendor/${id}`);
 export const getProduct= (id)=>axios.get(`https://shoping-api.vercel.app/product/${id}`);
 export const getProductsForUsers= ()=>axios.get(`https://shoping-api.vercel.app/product`);
+export const getTopProductForUser= ()=>axios.get(`https://shoping-api.vercel.app/product/top`);
 export const getProductsByCategory= (name)=>axios.get(`https://shoping-api.vercel.app/product/category/${name}`);
 export const getOrdersForUser= (id)=>axios.get(`https://shoping-api.vercel.app/order/user/${id}`);
 export const getAllOrders= (id)=>axios.get(`https://shoping-api.vercel.app/order`);

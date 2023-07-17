@@ -5,7 +5,7 @@ import CartCard from '../../componets/cartCard';
 import { Modal, Empty } from 'antd';
 import AddAddress from '../../componets/AddAddress';
 import { removeUserCart, setAddress } from '../../features/userSlice';
-import { addAddresToUser, addOrders, getProduct, addToCart, removeToCart } from '../../services/product.service';
+import { addAddresToUser, addOrders, getProduct, addToCart, removeToCart, updateMyProduct } from '../../services/product.service';
 import { useNavigate, useParams } from 'react-router-dom';
 const Cart = () => {
   const dispatch = useDispatch();
@@ -56,7 +56,6 @@ const Cart = () => {
   const handelSelectAddress = () => {
     showModal1();
   }
-  console.log(productId, "product id is")
   useEffect(() => {
     if (Object.keys(user.address).length !== 0) {
       setSelectedAddress(user.address[0].userAddress);
@@ -152,6 +151,8 @@ const Cart = () => {
             quantity: 5,
             price: data.price,
           })
+        const totaloders=data.oderNum??0
+        await updateMyProduct({oderNum:totaloders+1},data._id);
         handelRemoveCart(item.id)
         navigate('/success')
 
