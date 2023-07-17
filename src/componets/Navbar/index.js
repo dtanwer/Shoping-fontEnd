@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Badge, Modal } from 'antd';
 import './index.css';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -50,7 +50,11 @@ const Navbar = () => {
                         user.type !== 'user' && isLogin && <div className="item" onClick={() => navigate('/dashboard')}>DashBoard</div>
                     }
 
-                    {isLogin && <div className="item" onClick={() => navigate('/cart')}> <ShoppingCartIcon /> Cart</div>}
+                    {isLogin && <div className="item" onClick={() => navigate('/cart')}>
+                        <Badge count={Object.keys(user?.cart).length} className='item'>
+                        <ShoppingCartIcon  style={{color:"white"}} /> <span  style={{color:"white"}}>Cart</span>
+                        </Badge>
+                        </div>}
                     {isLogin && <div className="item" onClick={() => navigate('/order')}> <CardGiftcardOutlinedIcon /> Order</div>}
                     {
                         !isLogin ? <div className="item"> <button onClick={showModal}>Login</button>  </div> :
@@ -63,7 +67,7 @@ const Navbar = () => {
                     <div className="adminNav">
                         <div className="head"> <h1>Systumm Admin</h1> </div>
                         <div className="adminLogout">
-                         <button onClick={() => dispatch(setLogOut())}>Logout</button> 
+                            <button onClick={() => dispatch(setLogOut())}>Logout</button>
                         </div>
                     </div>
                 )}
