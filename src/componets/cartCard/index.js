@@ -1,11 +1,28 @@
 import { useState, useEffect } from 'react'
 import { getProduct, removeToCart } from '../../services/product.service';
-import './index.css'
+import './index.css';
+import { message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { removeUserCart,setCartQuantity,setTotalCart } from '../../features/userSlice';
-function CartCard({ id ,checkOut,user,cart,isChange,setIsChange}) {
+import { removeUserCart, setCartQuantity, setTotalCart } from '../../features/userSlice';
+function CartCard({ id, checkOut, user, cart }) {
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const success = (msg) => {
+        messageApi.open({
+            type: 'success',
+            content: msg,
+            style:{fontSize:"20px" , marginTop:"8vh"}
+        });
+    };
+    const warning = (msg) => {
+        messageApi.open({
+            type: 'warning',
+            content:msg,
+            style:{fontSize:"20px",marginTop:"8vh"}
+        });
+    };
     const [product, setProduct] = useState({});
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(cart?.quantity);
     const dispatch = useDispatch();
     const getUserProduct = async () => {
         try {
@@ -18,30 +35,35 @@ function CartCard({ id ,checkOut,user,cart,isChange,setIsChange}) {
     useEffect(() => {
         getUserProduct();
 
-    },[])
+    }, [])
     const handelIncrement = () => {
-        if (quantity < parseInt(product?.stock)){
+        if (quantity < parseInt(product?.stock)) {
+            dispatch(setCartQuantity({ ...cart, quantity: quantity + 1 }))
             setQuantity(quantity + 1)
-            dispatch(setCartQuantity({...cart,quantity}))    
+        }
+        else {
+            warning(`Can not add more then ${quantity}`)
         }
 
         dispatch(setTotalCart(parseInt(product.price)))
     }
     const handelDecrement = () => {
-        if (quantity > 1){
+        if (quantity > 1) {
 
+            dispatch(setCartQuantity({ ...cart, quantity: quantity - 1 }))
             setQuantity(quantity - 1)
-            dispatch(setCartQuantity({...cart,quantity}))  
-        } 
+        }
         else {
-            alert(`Can not add more then ${quantity}`);
+            warning(`Can't Do quantity 0 :)`)
         }
     }
-    const handelRemoveCart= async()=>{
+    const handelRemoveCart = async () => {
+        success('Product Removed!');
         try {
-           await removeToCart(user._id,{id}) 
-           dispatch(removeUserCart({id}))
-           dispatch(setTotalCart(parseInt(quantity)*-parseInt(product?.price)))
+            await removeToCart(user._id, { id })
+            dispatch(removeUserCart({ id }))
+            dispatch(setTotalCart(parseInt(quantity) * -parseInt(product?.price)))
+            
         } catch (error) {
             console.log(error)
         }
@@ -49,9 +71,10 @@ function CartCard({ id ,checkOut,user,cart,isChange,setIsChange}) {
 
     return (
         <div className='cartCard'>
+            {contextHolder}
             <div className="img">
                 <img src={product?.img} alt="product Img" />
-                {!checkOut&& <div className="quantity">
+                {!checkOut && <div className="quantity">
                     <button onClick={handelDecrement}>-</button>
                     <input type="number" value={quantity} />
                     <button onClick={handelIncrement}>+</button>
@@ -62,7 +85,7 @@ function CartCard({ id ,checkOut,user,cart,isChange,setIsChange}) {
                 <div className="price">
                     <h1>₹ {product?.price}  <span className='MRP'>{product?.mrp}</span>   <span style={{ color: "green" }}>{product?.discountPercentage}%</span></h1>
                 </div>
-                {!checkOut &&<button className='button-13' onClick={handelRemoveCart}>Remove</button>}
+                {!checkOut && <button className='button-13' onClick={handelRemoveCart}>Remove</button>}
             </div>
         </div>
     )

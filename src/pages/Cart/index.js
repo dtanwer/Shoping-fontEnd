@@ -2,18 +2,43 @@ import React, { useEffect, useState } from 'react'
 import './index.css'
 import { useDispatch, useSelector } from 'react-redux';
 import CartCard from '../../componets/cartCard';
-import { Modal, Empty } from 'antd';
+import { Modal, Empty,message } from 'antd';
 import AddAddress from '../../componets/AddAddress';
 import { removeUserCart, setAddress } from '../../features/userSlice';
 import { addAddresToUser, addOrders, getProduct, addToCart, removeToCart, updateMyProduct } from '../../services/product.service';
 import { useNavigate, useParams } from 'react-router-dom';
 const Cart = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = (msg) => {
+    messageApi.open({
+      type: 'success',
+      content:msg,
+      style:{fontSize:"20px"}
+
+    });
+  };
+  const placing = (msg) => {
+    messageApi.open({
+      type: 'loading',
+      content:msg,
+      duration: 1,
+      style:{fontSize:"20px"}
+
+    });
+  };
+  const warning = (msg) => {
+    messageApi.open({
+      type: 'warning',
+      content:msg,
+      style:{fontSize:"20px"}
+    });
+  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { productId } = useParams();
   const [total, setTotal] = useState(0);
   const user = useSelector((state) => state.auth.user);
-  const totalInCart = useSelector((state) => state.auth.totalInCart);
   const productPrice = useSelector((state) => state.auth.productPrice);
   const [selectedAddress, setSelectedAddress] = useState("")
   const [add, setAdd] = useState("")
@@ -34,8 +59,7 @@ const Cart = () => {
   };
 
   const handleOk = async () => {
-    if(add!=="")
-    {
+    if (add !== "") {
 
       try {
         await addAddresToUser(user._id, { userAddress: add });
@@ -47,7 +71,7 @@ const Cart = () => {
         console.log(error)
       }
     }
-    else{
+    else {
       setMsg("Please Input Address !!")
     }
 
@@ -80,12 +104,13 @@ const Cart = () => {
   }, [])
 
   useEffect(() => {
-    let cost=0;
-    user.cart.map((item,i) => {
-       cost += (parseInt(item?.price) * parseInt(item?.quantity))  
+    let cost = 0;
+    console.log(user.cart, "84");
+    user.cart.map((item, i) => {
+      cost += (parseInt(item?.price) * parseInt(item?.quantity))
     })
     setTotal(cost);
-  }, [isChange,user.cart])
+  }, [isChange, user.cart])
 
   const getUserProduct = async (id) => {
     try {
@@ -104,17 +129,21 @@ const Cart = () => {
     } catch (error) {
       console.log(error)
     }
+    success("Product Removed!!")
   }
-  const handelCupon = () => {
+  const handelCupon = (e) => {
+    e.preventDefault();
     if (cupon === "FREE500") {
       setDiscount(500);
     }
     else if (cupon === "FIRST") {
+      setDelevry(0);
       setDiscount(500);
+      success("Cupon Code Applyed!")
     }
     else {
       setDiscount(0);
-      alert("Wrong Cupon!!!!")
+      warning("Wrong Cupon Code")
       setCupon("");
     }
   }
@@ -124,7 +153,7 @@ const Cart = () => {
       showModal();
       return;
     }
-    alert("placing...");
+    placing("Placing Your Oder...");
     if (productId) {
       try {
         const data = await getUserProduct(productId)
@@ -161,8 +190,8 @@ const Cart = () => {
             quantity: item?.quantity,
             price: data.price,
           })
-        const totaloders=data.oderNum??0
-        await updateMyProduct({oderNum:totaloders+1},data._id);
+        const totaloders = data.oderNum ?? 0
+        await updateMyProduct({ oderNum: totaloders + 1 }, data._id);
         handelRemoveCart(item.id)
         navigate('/success')
 
@@ -174,9 +203,18 @@ const Cart = () => {
 
 
   }
+
+  const handelCuponInput = (e) => {
+    setCupon(e.target.value);
+    if (cupon !== "FIRST") {
+      setDiscount(0);
+      setDelevry(500);
+    }
+  }
   return (
 
     <div className='cart'>
+      {contextHolder}
       <div className="cartItems">
         <div className="address">
           <span className='heading'>Address</span>
@@ -226,7 +264,7 @@ const Cart = () => {
           <span>Price ({Object.keys(user?.cart).length} item)</span>
           <span className='amount'>₹{total}</span> <br />
           <span>Delivery Charges</span>
-          <span className='amount' style={{ "color": "green" }} >{cupon === 'FIRST' ? "FREE" : `${delevry}`}</span> <br />
+          <span className='amount' style={{ "color": "green" }} >{delevry === 0 ? "FREE" : `${delevry}`}</span> <br />
           {checkOut && <span>Discount</span>}
           {checkOut && <span className='amount' >₹{discount}</span>}
         </div>
@@ -239,20 +277,22 @@ const Cart = () => {
           }
         </div>
         {checkOut && <div className="cupon">
-          <input type="text" value={cupon} onChange={(e) => setCupon(e.target.value)} placeholder='Cupon Code' />
-          <button onClick={handelCupon}>Apply</button>
+          <form onSubmit={handelCupon}>
+            <input type="text" value={cupon} onChange={handelCuponInput} placeholder='Cupon Code' />
+            <button type='submit'>Apply</button>
+          </form>
           {discount !== 0 && <span style={{ "color": "green" }}> <b>{cupon} APPLYED!!</b> </span>}
         </div>}
         {checkOut && <div className="checkout">
+          {discount === 0 && <span style={{ color: "red", fontWeight: "bold" }}>Use FIRST for free Delevery</span>}
           <button onClick={placeOrder}>CHECK OUT</button>
         </div>}
 
       </div>
       <Modal title="Input Your Address" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <input type="text"
-          value={add} onChange={(e) => setAdd(e.target.value)}
-          style={{ padding: "10px", fontSize: "18px", width: "19rem" }} /> <br /> 
-          <span style={{color:"red",paddingTop: "20px", fontSize: "15px"}}>{msg}</span>
+        <input type="text" value={add} onChange={(e) => setAdd(e.target.value)}
+          style={{ padding: "10px", fontSize: "18px", width: "19rem" }} /> <br />
+        <span style={{ color: "red", paddingTop: "20px", fontSize: "15px" }}>{msg}</span>
       </Modal>
       <AddAddress isModalOpen1={isModalOpen1} setIsModalOpen1={setIsModalOpen1} selectedAddress={selectedAddress} setSelectedAddress={setSelectedAddress} />
 

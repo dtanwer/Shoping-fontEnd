@@ -1,8 +1,8 @@
 .cartCard {
     display: grid;
     grid-template-columns: 0.3fr 1fr;
-    border-bottom: 1px solid black;
     margin-bottom: 10px;
+    padding: 20px 10px;
 }
 .cartCard .img img{
     width:100px;

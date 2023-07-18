@@ -18,7 +18,10 @@
     background-color: #ffff;
     margin: 2rem;
     margin-left: 7rem;
-    overflow-y: scroll  ;
+    overflow-y: scroll;
+}
+.cartItems .items::-webkit-scrollbar{
+    display: none;
 }
 .cart .amountDetails{
     background-color: #ffff;
@@ -57,7 +60,10 @@
     padding: 1rem;
     border: none;
     border-radius: 10px;
-    margin-top: 40px;
+    margin-top: 20px;
+}
+.checkout {
+    margin-top: 20px;
 }
 .addressButton{
     text-align: end;
@@ -127,6 +133,7 @@
     padding: 10px;
     border-radius: 10px;
     font-size: larger;
+    border: 1 px solid gray;
 }
 .cupon button{
     padding: 10px;
