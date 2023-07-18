@@ -1,26 +1,49 @@
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
 import './index.css'
-import { PlusOutlined} from '@ant-design/icons';
 import { Button, Form, Input, Upload, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
-import { updateUser } from '../../services/client.service';
+import { updateClientPhone, updateUser } from '../../services/client.service';
 import { setUser } from '../../features/userSlice';
 const Profile = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const user = useSelector((state) => state.auth.user)
     const dispatch = useDispatch();
+    const [editName, setEditName] = useState(false)
+    const [name, setName] = useState(user?.name ?? "")
+    const [editPhone, setEditPhone] = useState(false)
+    const [phone, setPhone] = useState(user?.phone ?? "")
+    const [address, setAddress] = useState("")
 
-    const info = (msg) => {
-        messageApi.info(msg);
+    const success = (msg) => {
+        messageApi.open({
+            type: 'success',
+            content: msg,
+            style: { marginTop: "10vh", fontSize: "18px" }
+        });
     };
-    const [form] = Form.useForm();
+
+    const error = (msg) => {
+        messageApi.open({
+            type: 'error',
+            content: msg,
+            style: { marginTop: "10vh", fontSize: "18px" }
+        });
+    };
+
+    const warning = (msg) => {
+        messageApi.open({
+            type: 'warning',
+            content: msg,
+            style: { marginTop: "20vh", fontSize: "18px" }
+        });
+    };
     const [form1] = Form.useForm();
-    const onFinish = async (values) => {
+    const updateProfile = async (values) => {
         try {
-            const res = await updateUser({ ...values, address: [...user.address, { userAddress: values.Uaddress }] }, user._id)
+            const res = await updateUser(values, user._id)
             console.log(res.data);
             dispatch(setUser(res.data));
-            info("Profile Updated!")
+            success("Profile Updated!")
         } catch (error) {
             console.log(error)
         }
@@ -28,10 +51,9 @@ const Profile = () => {
     };
     const updateProfileImg = async (img) => {
         try {
-            const res = await updateUser({img}, user._id)
-            // console.log(res.data);
+            const res = await updateUser({ img }, user._id)
             dispatch(setUser(res.data));
-            info("Profile Image Updated!!")
+            success("Profile Image Updated!!")
         } catch (error) {
             console.log(error)
         }
@@ -44,7 +66,7 @@ const Profile = () => {
                 const res = await updateUser({ password: values.newPassword }, user._id)
                 console.log(res.data);
                 dispatch(setUser(res.data));
-                info("Password Changed")
+                success("Password Changed")
                 form1.setFieldsValue({ newPassword: "", oldPassword: "" });
                 console.log("line 36")
             } catch (error) {
@@ -56,18 +78,64 @@ const Profile = () => {
         }
 
     };
-    const onFill = () => {
-        form.setFieldsValue({ ...user });
-    };
 
-
-    useEffect(() => {
-        onFill()
-    }, [])
-
-    const handleChange = ({ file: newFile}) => {
+    const handleChange = ({ file: newFile }) => {
         (newFile.status === 'done') && updateProfileImg(`http://localhost:5000/${newFile.response}`)
     };
+
+    const updateName = () => {
+        if (name === "") {
+            warning("Input Name!!")
+            return;
+        }
+        updateProfile({ name })
+        setEditName(false)
+
+    }
+    const updatePhone = async () => {
+        console.log(phone)
+        if (phone === "") {
+            warning("Input Phone!!")
+            return;
+        }
+
+        try {
+            const res = await updateClientPhone({ phone }, user._id);
+            if (res.status === 200) {
+                dispatch(setUser(res.data));
+                success("Profile Updated!")
+                setEditPhone(false)
+                return;
+            }
+            else {
+                error("Phone Number Already Exist!!")
+                return;
+            }
+
+        } catch ({ error }) {
+            console.log(error)
+        }
+
+
+
+    }
+    const updateAddress = () => {
+        if (address === "") {
+            warning("Input Address !!")
+            return;
+        }
+
+        updateProfile({ address: [...user.address, { userAddress: address }] })
+        setAddress("")
+
+    }
+
+    const handelNumberInput = (e) => {
+        if (!isNaN(e.target.value)) {
+            setPhone(e.target.value);
+        }
+    }
+
 
     return (
         <div className='profile'>
@@ -92,7 +160,7 @@ const Profile = () => {
                             multiple={false}
                             showUploadList={false}
                         >
-                          <button className='changeImg'>Change Profile</button>
+                            <button className='changeImg'>Change Profile</button>
                         </Upload>
 
                     </div>
@@ -113,35 +181,33 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            <div className="item persenalDetails">
+            <div className=" persenalDetails">
                 {contextHolder}
                 <div className='heading'>
                     <h2>Personal Information</h2>
                 </div>
-                <div className="form">
-                    <Form
-                        form={form}
-                        name="control-hooks"
-                        onFinish={onFinish}
-                        style={{
-                            maxWidth: 600,
-                        }}
-                    >
-                        <Form.Item name="name" label="Name" rules={[{ required: true, },]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="phone" label="Phone" rules={[{ required: true, },]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="Uaddress" label="Address" >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item >
-                            <Button type="primary" htmlType="submit">
-                                Update
-                            </Button>
-                        </Form.Item>
-                    </Form>
+                <div className="name inputdata">
+                    <span>Name</span><br />
+                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} disabled={!editName} />
+                    {
+                        !editName ?
+                            <button onClick={() => setEditName(true)} className='edit'>Edit</button> :
+                            <button className='update' onClick={() => updateName({ name })}>Update</button>
+                    }
+                </div>
+                <div className="name inputdata">
+                    <span>Phone No.</span><br />
+                    <input type="text" value={phone} onChange={handelNumberInput}  maxLength={10} disabled={!editPhone} />
+                    {
+                        !editPhone ?
+                            <button onClick={() => setEditPhone(true)} className='edit'>Edit</button> :
+                            <button className='update' onClick={() => updatePhone({ phone })}  >Update</button>
+                    }
+                </div>
+                <div className="name inputdata">
+                    <span>Address</span><br />
+                    <input type="text" onChange={(e) => setAddress(e.target.value)} />
+                    <button className='update' onClick={() => updateAddress({ address })} >Add Address</button>
 
                 </div>
                 <div style={{ "textAlign": "start", "marginLeft": "80px" }}>
@@ -173,7 +239,7 @@ const Profile = () => {
 
                     </div>) : (<div className='form'>
                         <Form
-                            onFinish={onFinish}
+                            onFinish={updateProfile}
                             style={{
                                 maxWidth: 600,
                             }}

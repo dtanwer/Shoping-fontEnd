@@ -51,6 +51,9 @@ const SignUp = ({ setlogin }) => {
         if (res.status === 209) {
           error('Email Alredy Exist!!');
         }
+        else if (res.status === 208) {
+          error('Phone Allredy Exist!!');
+        }
         else {
           success();
           setlogin(true);
@@ -80,7 +83,7 @@ const SignUp = ({ setlogin }) => {
         <form onSubmit={handelSubmit} >
           <div className="email myInput">
             <MailOutlineIcon className='icon' />
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder=' Enter Email' required />
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder=' Enter Email' maxLength={30} required />
           </div>
           <div className="phone myInput">
             <PhoneAndroidIcon className='icon' />
@@ -88,11 +91,11 @@ const SignUp = ({ setlogin }) => {
           </div>
           <div className="password myInput">
             <LockOpenIcon className='icon' />
-            <input type="password" placeholder=' Password' value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <input type="password" placeholder=' Password' value={password} onChange={(e) => setPassword(e.target.value)} maxLength={20}  required />
           </div>
           <div className="confPassword myInput">
             <LockOpenIcon className='icon' />
-            <input type="password" placeholder=' Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+            <input type="password" placeholder=' Confirm Password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} maxLength={20} required />
           </div>
           <Radio.Group onChange={(e) => setType(e.target.value)} value={type}>
             <Radio value='user'>User</Radio>

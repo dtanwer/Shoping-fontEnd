@@ -6,6 +6,7 @@ const initialState={
     products:[],
     totalInCart:0,
     productPrice:0,
+    banner:{}
 }
 
 const authSlice=createSlice({
@@ -24,6 +25,9 @@ const authSlice=createSlice({
         },
         setUser:(state,action)=>{
             state.user=action.payload;
+        },
+        setBanner:(state,action)=>{
+            state.banner=action.payload;
         },
         setAddCart:(state,action)=>{
             // console.log('Pushing Data',action.payload)
@@ -61,5 +65,5 @@ const authSlice=createSlice({
     }
 })
 
-export const {setLogOut,setLogin,setUser,setProducts,setAddCart,setAddress,removeUserCart,setTotalCart,setProductPrice,setCartQuantity} = authSlice.actions;
+export const {setLogOut,setLogin,setUser,setProducts,setAddCart,setAddress,removeUserCart,setTotalCart,setProductPrice,setCartQuantity,setBanner} = authSlice.actions;
 export default authSlice.reducer;

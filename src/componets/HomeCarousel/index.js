@@ -1,19 +1,35 @@
-import React, { Component } from 'react';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; 
+import React, { Component, useEffect } from 'react';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import './index.css'
-const HomeCarousel=()=>{
+import { getBanner } from '../../services/banner.service';
+import { useDispatch, useSelector } from 'react-redux';
+import { setBanner } from '../../features/userSlice';
+const HomeCarousel = () => {
+    const dispatch = useDispatch()
+    const data = useSelector((state) => state.auth.banner);
+    const getBannerData = async () => {
+        try {
+            const res = await getBanner()
+            dispatch(setBanner(res.data[0]))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        getBannerData()
+    }, [])
     return (
         <Carousel>
-            <div className='myItem'>
-                <img src="https://marketplace.canva.com/EAE1gjmdjkQ/3/0/1600w/canva-yellow-and-black-super-weekend-sale-banner-qccqCrq6Umg.jpg" />
-            </div>
-            <div className='myItem'>
-                <img src="https://marketplace.canva.com/EAFLtJa7Jqo/1/0/1600w/canva-red-creative-sale-promo-banner-A_Te0b9wP9o.jpg" />
-            </div>
-            <div className='myItem'>
-                <img src="https://images.template.net/108414/fashion-sale-banner-template-85svg.jpg" />
-            </div>
+            {
+               data?.images?.map((item, i) => {
+                    return (
+                        <div className='myItem' key={i}>
+                            <img src={item} alt='banner' />
+                        </div>
+                    )
+                })
+            }
         </Carousel>
     )
 }

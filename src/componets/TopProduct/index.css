@@ -11,12 +11,26 @@
     height: 300px;
     margin-top: 20px;
 }
+.topProductCart p{
+   color: black;
+   margin: 0;
+   padding: 0;
+}
+.topProductCart span{
+  color: green;
+  font-size:large;
+  margin-top: 20px;
+}
 .topProductCart {
     cursor: pointer;
     text-align: center;
     width: 310px;
-    height: 350px;
+    height: 390px;
     background-color: #ffff;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+    transition: .5s;
+}
+.topProductCart:hover {
+    transform:scale3d(1.1,1.1,1.1);
 }

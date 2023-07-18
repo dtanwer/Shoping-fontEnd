@@ -34,6 +34,13 @@ const TopProduct = () => {
                                     // <ProductCard1 data={item} key={i} />
                                     <div className='topProductCart' onClick={()=>navigate(`/product/${item._id}`)}>
                                         <img src={item.img} alt="img" />
+                                        <p>{item.title.slice(0,30)}</p>  
+                                        {
+                                            item?.discountPercentage ?
+                                            <span>{item.discountPercentage}%</span>:
+                                            <span>{item.discountPercentage??"Shop Now"}</span>
+
+                                        }
                                     </div>
                                 )
                         })

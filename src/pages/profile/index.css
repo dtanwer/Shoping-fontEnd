@@ -11,6 +11,11 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     text-align: center;
 }
+.profile .persenalDetails{
+    background-color: rgb(255, 255, 255);
+    margin: 50px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
 .profile .left{
     background-color: rgb(255, 255, 255);
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -38,9 +43,10 @@
 .item .info li span{
     font-size: 20px;
 }
-.item .heading{
-   text-align: start;
+.persenalDetails .heading{
+   text-align: center;
    padding: 2rem 5rem;
+
 }
 .item .address{
    text-align: start;
@@ -75,4 +81,33 @@
     border-radius: 5px;
     border: none;
 
+}
+.persenalDetails .inputdata{
+    padding: 20px 100px;
+}
+.persenalDetails .inputdata span{
+    font-size: 20px;
+}
+.persenalDetails .inputdata input{
+   font-size: 18px;
+   padding: 5px;
+   border-radius: 5px;
+   margin-right: 20px;
+   border: 1px solid gray;
+}
+.persenalDetails .inputdata input:focus{
+  outline: none;
+}
+.persenalDetails .inputdata button{
+   font-size: 18px;
+   padding: 6px 11px;
+   border-radius: 5px;
+   border: none;
+   color: #ffff;
+}
+.persenalDetails .inputdata .edit{
+   background-color: rgb(242, 106, 40);
+}
+.persenalDetails .inputdata .update{
+   background-color: rgb(67, 114, 238);
 }

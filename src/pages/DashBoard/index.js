@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Modal, Badge } from 'antd';
+import { Modal, Badge, Upload } from 'antd';
 import './index.css'
-import { Button, Col, Row, Statistic } from 'antd';
+import { Col, Row, Statistic } from 'antd';
 import ProductForm from '../../componets/productForm';
 import ViewOrders from '../../componets/viewOrders';
 import ViewProducts from '../../componets/viewProducts';
 import { getOrders, getProducts } from '../../services/product.service';
 import { useSelector } from 'react-redux';
-import { getAllUser, getAllVendor } from '../../services/auth.service';
 import ViewClients from '../../componets/viewClients';
+import Bannner from '../../componets/banner';
 const DashBoard = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [addProduct, setAddProduct] = useState(false);
@@ -47,19 +47,17 @@ const DashBoard = () => {
         }
     }
     const user = useSelector((state) => state.auth.user);
-    const [data, setData] = useState([]);
 
     const getOrdersForVender = async () => {
-        let cost=0
-        let cnt=0;
+        let cost = 0
+        let cnt = 0;
         try {
             const res = await getOrders(user._id);
             console.log(res.data)
             setOderNum(res.data.length)
             res?.data?.map((item) => {
-                if(item.status==='delivered')
-                {
-                    cost+=parseInt(item.price);
+                if (item.status === 'delivered') {
+                    cost += parseInt(item.price);
                     cnt++;
                 }
             })
@@ -84,14 +82,16 @@ const DashBoard = () => {
         getproductsForVender()
     }, [])
 
+   
+
     return (
         <div className='dashBoard'>
             <h1>DashBoard</h1>
             <div className="cards">
-                <div className="addProduct item" onClick={() => showModel("add")}>
+                {user.type !== 'admin' && <div className="addProduct item" onClick={() => showModel("add")}>
                     <img src="https://cdn4.iconfinder.com/data/icons/online-shopping-32/64/add-product-boxes-unbox-package-warehouse-512.png" alt="add product" />
                     <h2>Add Products</h2>
-                </div>
+                </div>}
                 <div className="ViewProduct item" onClick={() => showModel("view")}>
                     <Badge count={productNum}>
                         <img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/product-view-3-1146772.png" alt="add product" />
@@ -135,6 +135,16 @@ const DashBoard = () => {
                     </Col>
                 </Row>
             </div>}
+
+
+            {
+                user.type === "admin" && <div className='banner'>
+                    <h1>Add Banners</h1>
+                    <Bannner />
+                  
+
+                </div>
+            }
 
         </div>
     )

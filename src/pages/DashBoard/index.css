@@ -19,3 +19,21 @@
     margin: auto;
     margin-top: 100px;
 }
+.dashBoard h1{
+    margin: 20px;
+    margin-left: 50px;
+    width: 250px;
+    padding: 10px;
+    padding-left: 20px;
+    color: white;
+    border-radius: 10px;
+    background-color:rgba(18, 21, 29, 0.371) ;
+    margin-top: 40px;
+}
+.bannerButton{
+    margin: 30px;
+}
+.banner{
+    text-align: center;
+    margin-top: 50px;
+}
