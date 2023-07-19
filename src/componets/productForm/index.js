@@ -44,7 +44,7 @@ const ProductForm = ({ data, update,setModalOpen }) => {
                 })}
                 </div>
             
-            <InputForm images={image} setFileList={setFileList} setImage={setImage} data={data} update={update} setModalOpen={setModalOpen} />
+            <InputForm images={image} fileList={fileList} setFileList={setFileList} setImage={setImage} data={data} update={update} setModalOpen={setModalOpen} />
         </div>
     )
 }

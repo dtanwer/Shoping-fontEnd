@@ -3,7 +3,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import { toast, Toaster } from "react-hot-toast";
 import { useSelector, useDispatch } from 'react-redux';
-import { setLogin, setUsers } from '../../features/userSlice';
+import { setLoading, setLogin, setUsers } from '../../features/userSlice';
 import { signInWithGoogle, signInWithEmailPassword } from '../../utils/signIn';
 import { loginUser, signUpUser } from '../../services/auth.service';
 import './index.css';
@@ -38,6 +38,7 @@ const Login = ({ setlogin, handleCancel }) => {
         e.preventDefault();
         // console.log(isNum,password,email)
         try {
+            dispatch(setLoading(true));
             const res = await loginUser({ email, password })
             // console.log(res.data,"with id password")
             if (res.status === 200) {
@@ -46,6 +47,7 @@ const Login = ({ setlogin, handleCancel }) => {
                 setPassword("");
                 setMsg("");
                 handleCancel();
+                dispatch(setLoading(false));
 
             }
             else if (res.status === 204) {

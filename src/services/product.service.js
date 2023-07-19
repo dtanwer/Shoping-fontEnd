@@ -16,3 +16,4 @@ export const addToCart= (id,data)=>axios.post(`http://localhost:5000/auth/addCar
 export const removeToCart= (id,data)=>axios.put(`http://localhost:5000/auth/removeCart/${id}`,data);
 export const addAddresToUser= (id,data)=>axios.post(`http://localhost:5000/auth/addAddress/${id}`,data);
 export const getOrders= (id)=>axios.get(`http://localhost:5000/order/${id}`);
+export const searchProducts= (q)=>axios.get(`http://localhost:5000/product/search/${q}`);

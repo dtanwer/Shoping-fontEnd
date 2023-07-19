@@ -6,37 +6,43 @@ import { addProduct, updateMyProduct } from '../../services/product.service';
 import { useSelector } from 'react-redux'
 const { Option } = Select;
 const { TextArea } = Input;
-const InputForm = ({ images, data, update, setFileList, setModalOpen }) => {
+const InputForm = ({ images, data, update, fileList, setFileList, setModalOpen }) => {
     const [messageApi, contextHolder] = message.useMessage();
     const user = useSelector((state) => state.auth.user)
     const [isDraft, setDraft] = useState(false);
-    const info = () => {
-        messageApi.info('Product Saved!');
+    const info = (msg) => {
+        messageApi.open({
+            type: 'success',
+            content: msg,
+            style: {
+                marginTop: '20vh', fontSize: "20px"
+            },
+        });
     };
     const warning = (msg) => {
         messageApi.open({
             type: 'warning',
             content: msg,
+            style: {
+                marginTop: '10vh', fontSize: "20px"
+            },
+
         });
     };
     const [form] = Form.useForm();
     const onFinish = async (values) => {
         if (update) {
             let allImgs = images
-            if (images.length == 0) {
+            if (fileList.length == 0) {
                 allImgs = data.images;
             }
-            else if (images.length < 3) {
-                alert("Input altest 3 images of Products");
-                return;
-            }
-            if (allImgs.length < 3) {
+            else if (fileList.length < 3) {
                 warning("Input altlest 3 Images");
                 return;
             }
             try {
                 const res = await updateMyProduct({ ...values, images: allImgs, isDraft }, data._id)
-                info()
+                info("Producted Updated !!")
                 setFileList([]);
                 if (update) {
                     setModalOpen(false)
@@ -54,8 +60,8 @@ const InputForm = ({ images, data, update, setFileList, setModalOpen }) => {
             }
 
             try {
-                const res = await addProduct({ ...values, images, img: images[0], vendorId: user._id, isDraft })
-                info()
+                await addProduct({ ...values, images, img: images[0], vendorId: user._id, isDraft })
+                info("Product Added !!")
                 onReset();
                 setFileList([]);
                 // setModalOpen(false)

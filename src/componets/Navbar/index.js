@@ -5,9 +5,10 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CardGiftcardOutlinedIcon from '@mui/icons-material/CardGiftcardOutlined';
 import Auth from '../../pages/Auth';
-import { setLogOut, setShowModel } from '../../features/userSlice';
+import { setLogOut,setLoading, setShowModel,setProducts } from '../../features/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { searchProducts } from '../../services/product.service';
 const Navbar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
@@ -15,7 +16,8 @@ const Navbar = () => {
     const isLogin = useSelector((state) => state.auth.login);
     const user = useSelector((state) => state.auth.user);
     const modalShow = useSelector((state) => state.auth.showModel);
-    const admin = user.type === 'admin'
+    const admin = user.type === 'admin';
+    const [query,setQuery]=useState("");
 
     // const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -28,7 +30,19 @@ const Navbar = () => {
         dispatch(setShowModel(false));
         // setIsModalOpen(false);
     };
-    const handelSearch = () => {
+    const handelSearch = async (e) => {
+        e.preventDefault();
+        try {
+            dispatch(setLoading(true))
+            const res= await searchProducts(query);
+            console.log(res.data);
+            dispatch(setProducts(res.data));
+            dispatch(setLoading(false));
+            navigate('/catogory');
+
+        } catch (error) {
+            console.log(error)
+        }
 
     }
     return (
@@ -40,7 +54,7 @@ const Navbar = () => {
                     </div>
                     <div className="itemsearch">
                         <form onSubmit={handelSearch}>
-                            <input type="text" placeholder=' Search for products, brands and more' required />
+                            <input type="text" onChange={(e)=>setQuery(e.target.value)} placeholder=' Search for products, brands and more' required />
                             <SearchOutlinedIcon className='icon' />
                         </form>
                     </div>
