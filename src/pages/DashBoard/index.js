@@ -15,6 +15,7 @@ const DashBoard = () => {
     const [view, setView] = useState(false);
     const [order, setOrders] = useState(false);
     const [client, setClient] = useState(false);
+    const [isChange, setIsChange] = useState(false);
     const [oderNum, setOderNum] = useState(0);
     const [deleverNum, setDeleverNum] = useState(0);
     const [productNum, setProductNum] = useState(0);
@@ -80,7 +81,7 @@ const DashBoard = () => {
     useEffect(() => {
         getOrdersForVender()
         getproductsForVender()
-    }, [])
+    }, [isChange])
 
    
 
@@ -117,9 +118,10 @@ const DashBoard = () => {
                 open={modalOpen}
                 onOk={() => setModalOpen(false)}
                 onCancel={() => setModalOpen(false)}
+                footer={[]}
             >
                 {addProduct && <ProductForm update={false} setModalOpen={setModalOpen} />}
-                {order && <ViewOrders />}
+                {order && <ViewOrders setIsChange1={setIsChange} isChange1={isChange} />}
                 {view && <ViewProducts />}
                 {client && <ViewClients />}
 

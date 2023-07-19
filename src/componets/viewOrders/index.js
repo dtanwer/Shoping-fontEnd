@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import './index.css'
-import { Space, Table } from 'antd';
+import { Space, Table, Button, Popconfirm } from 'antd';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
 import { getAllOrders, getOrders, updateOrder } from '../../services/product.service';
 import { message, Tag, Select } from 'antd';
 import { colors } from '@mui/material';
-const ViewOrders = () => {
+const ViewOrders = ({setIsChange1,isChange1}) => {
   const [isChange, setIsChange] = useState(false)
   const columns = [
     {
@@ -65,7 +65,8 @@ const ViewOrders = () => {
     },
   ];
   const handleChange = (value, id) => {
-    handelStatus(id, value)
+    handelStatus(id, value);
+    setIsChange1(!isChange1);
   };
 
   const handelStatus = async (id, status) => {

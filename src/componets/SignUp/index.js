@@ -6,7 +6,7 @@ import { Radio } from 'antd';
 import './index.css'
 import { signUpUser } from '../../services/auth.service';
 import { message } from 'antd';
-const SignUp = ({ setlogin }) => {
+const SignUp = ({ setlogin,success1 }) => {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
@@ -55,7 +55,8 @@ const SignUp = ({ setlogin }) => {
           error('Phone Allredy Exist!!');
         }
         else {
-          success();
+          // success();
+          success1();
           setlogin(true);
         }
       } catch (error) {
