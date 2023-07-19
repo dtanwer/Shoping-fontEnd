@@ -22,7 +22,7 @@ function CartCard({ id, checkOut, user, cart }) {
         });
     };
     const [product, setProduct] = useState({});
-    const [quantity, setQuantity] = useState(cart?.quantity);
+    const [quantity, setQuantity] = useState(parseInt(cart?.quantity??0));
     const dispatch = useDispatch();
     const getUserProduct = async () => {
         try {
