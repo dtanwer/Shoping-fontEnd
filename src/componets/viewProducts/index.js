@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './index.css';
-import { Space, Table, Modal, message } from 'antd';
+import { Space, Table, Modal, message, Tag } from 'antd';
 import moment from 'moment';
 import { Tabs } from 'antd';
 import { getDraftProducts, getProducts, getProductsForUsers, updateMyProduct } from '../../services/product.service.js';
@@ -40,18 +40,15 @@ const ViewProducts = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
-          {(record?.isDraft || user?.type==='admin') && <a onClick={() => handelEdit(record)}>Edit</a>}
+          {<a onClick={() => handelEdit(record)}> <Tag color="blue">Edit</Tag></a>}
           {
-            record?.isDelete ?
-            <a style={{'color':"gray" ,"cursor":"not-allowed"}}>Make Stock Out</a>:
-            <a onClick={() => setOutOfStock(record._id)}  className='deleted'>Make Stock Out</a>
+            record?.stock !== "0" &&
+            <a a onClick={() => setOutOfStock(record._id)} > <Tag color="red"> Make Stock Out</Tag></a>
           }
-          {
-            record?.isDelete ?
-            <a style={{'color':"gray" ,"cursor":"not-allowed"}}>Delete</a>:
-            <a onClick={() => setDeleteProduct(record._id)} >Delete</a>
-          }
-        </Space>
+          <a onClick={() => addStock(record._id,record?.stock)}> <Tag color="green">Add 10 Stock</Tag> </a> 
+        
+          <a onClick={() => setDeleteProduct(record._id)} > <Tag color="red">Delete</Tag></a>
+        </Space >
       ),
     },
   ];
@@ -63,7 +60,7 @@ const ViewProducts = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const getproductsForVender = async () => {
     try {
-      const res = user.type==='admin'?await getProductsForUsers() : await getProducts(user._id);
+      const res = user.type === 'admin' ? await getProductsForUsers() : await getProducts(user._id);
       // console.log(res.data)
       setData(res.data)
     } catch (error) {
@@ -81,16 +78,26 @@ const ViewProducts = () => {
   }
   const setOutOfStock = async (id) => {
     try {
-      const res = await updateMyProduct({ stock: "0" },id)
+      const res = await updateMyProduct({ stock: "0" }, id)
       setChange(!isChange);
       info("Now Product is OUT OF STOCK !")
     } catch (error) {
       console.log(error)
     }
   }
+  const addStock = async (id,stock) => {
+    const newStock=(parseInt(stock)+10).toString();
+    try {
+      const res = await updateMyProduct({ stock:newStock}, id)
+      setChange(!isChange);
+      info("10 Stock is Added !")
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const setDeleteProduct = async (id) => {
     try {
-      const res = await updateMyProduct({isDelete:true },id)
+      const res = await updateMyProduct({ isDelete: true }, id)
       console.log(res.data)
       setChange(!isChange);
       info("Prdoucted is Deleted !")
@@ -101,7 +108,7 @@ const ViewProducts = () => {
   useEffect(() => {
     getproductsForVender()
     getDraftproductsForVender()
-  }, [isChange])
+  }, [isChange,modalOpen])
 
   const info = (msg) => {
     messageApi.info(msg);

@@ -1,38 +1,44 @@
 import { useEffect, useState } from 'react'
 import './index.css'
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message, Select, Checkbox } from 'antd';
+import { Button, Form, Input, message, Select, Checkbox, InputNumber } from 'antd';
 import { addProduct, updateMyProduct } from '../../services/product.service';
 import { useSelector } from 'react-redux'
 const { Option } = Select;
 const { TextArea } = Input;
-const InputForm = ({ images,data,update,setFileList,setModalOpen}) => {
+const InputForm = ({ images, data, update, setFileList, setModalOpen }) => {
     const [messageApi, contextHolder] = message.useMessage();
     const user = useSelector((state) => state.auth.user)
     const [isDraft, setDraft] = useState(false);
     const info = () => {
         messageApi.info('Product Saved!');
     };
+    const warning = (msg) => {
+        messageApi.open({
+            type: 'warning',
+            content: msg,
+        });
+    };
     const [form] = Form.useForm();
     const onFinish = async (values) => {
-        let allImgs=images
-        if(images.length==0)
-        {
-           allImgs=data.images;
-        }
-        else if(images.length<3)
-        {
-            alert("Input altest 3 images of Products");
-            return;
-        }
-        if(update)
-        {
+        if (update) {
+            let allImgs = images
+            if (images.length == 0) {
+                allImgs = data.images;
+            }
+            else if (images.length < 3) {
+                alert("Input altest 3 images of Products");
+                return;
+            }
+            if (allImgs.length < 3) {
+                warning("Input altlest 3 Images");
+                return;
+            }
             try {
-                const res = await updateMyProduct({ ...values, images:allImgs, isDraft },data._id)
+                const res = await updateMyProduct({ ...values, images: allImgs, isDraft }, data._id)
                 info()
-                onReset();
-                if(update)
-                {
+                setFileList([]);
+                if (update) {
                     setModalOpen(false)
                 }
                 // console.log(res.data);
@@ -40,14 +46,19 @@ const InputForm = ({ images,data,update,setFileList,setModalOpen}) => {
                 console.log(error)
             }
         }
-        else
-        {
+        else {
+            console.log(images)
+            if (images.length < 3) {
+                warning("Input altlest 3 Images");
+                return;
+            }
 
             try {
                 const res = await addProduct({ ...values, images, img: images[0], vendorId: user._id, isDraft })
                 info()
                 onReset();
                 setFileList([]);
+                // setModalOpen(false)
                 // console.log(res.data);
             } catch (error) {
                 console.log(error)
@@ -86,13 +97,12 @@ const InputForm = ({ images,data,update,setFileList,setModalOpen}) => {
         },
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(data)
-        if(update)
-        {
+        if (update) {
             onFill()
         }
-    },[])
+    }, [])
     return (
         <div className='inputForm'>
             {contextHolder}
@@ -105,25 +115,25 @@ const InputForm = ({ images,data,update,setFileList,setModalOpen}) => {
                 }}
             >
                 <Form.Item name="title" label="Title" rules={[{ required: true, },]}>
-                    <Input />
+                    <Input placeholder="Enter Title" />
                 </Form.Item>
                 <Form.Item name="rating" label="Rating" rules={[{ required: true, },]}>
-                    <Input />
+                    <InputNumber placeholder="4.1" />
                 </Form.Item>
                 <Form.Item name="mrp" label="MRP" rules={[{ required: true, },]}>
-                    <Input />
+                    <InputNumber placeholder="24000" />
                 </Form.Item>
                 <Form.Item name="price" label="Price" rules={[{ required: true, },]}>
-                    <Input />
+                    <InputNumber placeholder="12000" />
                 </Form.Item>
                 <Form.Item name="discountPercentage" label="Discount" rules={[{ required: true, },]}>
-                    <Input />
+                    <InputNumber placeholder="12" />
                 </Form.Item>
                 <Form.Item name="stock" label="Stock" rules={[{ required: true, },]}>
-                    <Input />
+                    <InputNumber placeholder="20" />
                 </Form.Item>
                 <Form.Item name="description" label="TextArea" rules={[{ required: true, },]}>
-                    <TextArea rows={4} />
+                    <TextArea placeholder="Enter about Products" rows={4} />
                 </Form.Item>
                 <Form.Item name="category" label="Category" rules={[{ required: true, },]}>
                     <Select placeholder="Select Category" allowClear>
@@ -314,12 +324,14 @@ const InputForm = ({ images,data,update,setFileList,setModalOpen}) => {
 
 
                 <Form.Item {...tailLayout}>
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                    <Button htmlType="button" onClick={onReset}>
+
+                    {update ?
+                        <Button type="primary" htmlType="submit">Update</Button> :
+                        <Button type="primary" htmlType="submit">Submit</Button>
+                    }
+                    {!update && <Button htmlType="button" onClick={onReset}>
                         Reset
-                    </Button>
+                    </Button>}
                 </Form.Item>
             </Form>
         </div>

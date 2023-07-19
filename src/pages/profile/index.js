@@ -12,8 +12,7 @@ const Profile = () => {
     const [name, setName] = useState(user?.name ?? "")
     const [editPhone, setEditPhone] = useState(false)
     const [phone, setPhone] = useState(user?.phone ?? "")
-    const [address, setAddress] = useState("")
-
+    const [address, setAddress] = useState("");
     const success = (msg) => {
         messageApi.open({
             type: 'success',
@@ -37,8 +36,13 @@ const Profile = () => {
             style: { marginTop: "20vh", fontSize: "18px" }
         });
     };
-    const [form1] = Form.useForm();
+    const [form] = Form.useForm();
     const updateProfile = async (values) => {
+        if(values?.password.trim()==="")
+        {
+            warning("Password Can not be blank !!");
+            return;
+        }
         try {
             const res = await updateUser(values, user._id)
             console.log(res.data);
@@ -60,6 +64,18 @@ const Profile = () => {
 
     };
     const onFinishChangePassward = async (values) => {
+        if(values.newPassword.trim()==="")
+        {
+            warning("Password Can not be blank !!");
+            form.setFieldsValue({ newPassword: ""});
+            return;
+        }
+        if(values?.oldPassword===values.newPassword)
+        {
+            warning("New Password Should not match with old Password");
+            form.setFieldsValue({ newPassword: ""});
+            return;
+        }
         if (values?.oldPassword === user?.password) {
 
             try {
@@ -67,14 +83,14 @@ const Profile = () => {
                 console.log(res.data);
                 dispatch(setUser(res.data));
                 success("Password Changed")
-                form1.setFieldsValue({ newPassword: "", oldPassword: "" });
-                console.log("line 36")
+                form.setFieldsValue({ newPassword: "", oldPassword: "" });
             } catch (error) {
                 console.log(error)
             }
         }
         else {
-            alert("Old Password is Not Matched!!!!");
+            warning("Old Password is Not Matched!!!!");
+            return;
         }
 
     };
@@ -84,7 +100,8 @@ const Profile = () => {
     };
 
     const updateName = () => {
-        if (name === "") {
+        if (name.trim() === "") {
+            setName("");
             warning("Input Name!!")
             return;
         }
@@ -93,11 +110,16 @@ const Profile = () => {
 
     }
     const updatePhone = async () => {
-        console.log(phone)
         if (phone === "") {
             warning("Input Phone!!")
             return;
         }
+        else if(phone.length!==10)
+        {
+            warning("Enter Correct Length of Number!!");
+            return;
+        }
+       
 
         try {
             const res = await updateClientPhone({ phone }, user._id);
@@ -120,7 +142,8 @@ const Profile = () => {
 
     }
     const updateAddress = () => {
-        if (address === "") {
+        if (address.trim() === "") {
+            setAddress("")
             warning("Input Address !!")
             return;
         }
@@ -131,11 +154,13 @@ const Profile = () => {
     }
 
     const handelNumberInput = (e) => {
+        if (e.currentTarget.value.includes(" ")) {
+            e.currentTarget.value = e.currentTarget.value.replace(/\s/g, "");
+          }
         if (!isNaN(e.target.value)) {
             setPhone(e.target.value);
         }
     }
-
 
     return (
         <div className='profile'>
@@ -188,7 +213,7 @@ const Profile = () => {
                 </div>
                 <div className="name inputdata">
                     <span>Name</span><br />
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} disabled={!editName} />
+                    <input type="text" value={name} onChange={(e) =>{ if(e.target.value!=" ") setName(e.target.value)}} disabled={!editName} />
                     {
                         !editName ?
                             <button onClick={() => setEditName(true)} className='edit'>Edit</button> :
@@ -206,7 +231,7 @@ const Profile = () => {
                 </div>
                 <div className="name inputdata">
                     <span>Address</span><br />
-                    <input type="text" onChange={(e) => setAddress(e.target.value)} />
+                    <input type="text" value={address} onChange={(e)=>setAddress(e.target.value)} />
                     <button className='update' onClick={() => updateAddress({ address })} >Add Address</button>
 
                 </div>
@@ -217,7 +242,7 @@ const Profile = () => {
                     user?.password ? (<div className='form' >
 
                         <Form
-                            form={form1}
+                            form={form}
                             name="control"
                             onFinish={onFinishChangePassward}
                             style={{

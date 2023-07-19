@@ -272,8 +272,8 @@ const Cart = () => {
           <span>Total Payable</span>
           {
             productId ?
-              <span className='amount'>₹{productPrice + delevry - discount}</span> :
-              <span className='amount'>₹{total + delevry - discount}</span>
+              <span className='amount'>₹{productPrice + delevry}</span> :
+              <span className='amount'>₹{total + delevry }</span>
           }
         </div>
         {checkOut && <div className="cupon">

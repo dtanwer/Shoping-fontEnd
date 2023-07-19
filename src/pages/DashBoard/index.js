@@ -118,7 +118,7 @@ const DashBoard = () => {
                 onOk={() => setModalOpen(false)}
                 onCancel={() => setModalOpen(false)}
             >
-                {addProduct && <ProductForm update={false} />}
+                {addProduct && <ProductForm update={false} setModalOpen={setModalOpen} />}
                 {order && <ViewOrders />}
                 {view && <ViewProducts />}
                 {client && <ViewClients />}

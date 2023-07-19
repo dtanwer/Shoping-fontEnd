@@ -5,7 +5,7 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CardGiftcardOutlinedIcon from '@mui/icons-material/CardGiftcardOutlined';
 import Auth from '../../pages/Auth';
-import { setLogOut } from '../../features/userSlice';
+import { setLogOut, setShowModel } from '../../features/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
@@ -14,17 +14,19 @@ const Navbar = () => {
 
     const isLogin = useSelector((state) => state.auth.login);
     const user = useSelector((state) => state.auth.user);
-
+    const modalShow = useSelector((state) => state.auth.showModel);
     const admin = user.type === 'admin'
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    // const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
-        setIsModalOpen(true);
+        dispatch(setShowModel(true));
+        // setIsModalOpen(true);
     };
 
     const handleCancel = () => {
-        setIsModalOpen(false);
+        dispatch(setShowModel(false));
+        // setIsModalOpen(false);
     };
     const handelSearch = () => {
 
@@ -71,7 +73,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 )}
-            <Modal width={1000} open={isModalOpen} onCancel={handleCancel} footer={[]}>
+            <Modal width={1000} open={modalShow} onCancel={handleCancel} footer={[]}>
                 <Auth handleCancel={handleCancel} />
             </Modal>
         </>

@@ -6,9 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { addToCart, getProduct } from '../../services/product.service';
 import { notification, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAddCart, setProductPrice, setTotalCart } from '../../features/userSlice';
-import { Padding } from '@mui/icons-material';
-import { getUser } from '../../services/auth.service';
+import { setAddCart, setProductPrice, setShowModel, setTotalCart } from '../../features/userSlice';
 const Product = () => {
     const [api, contextHolder1] = notification.useNotification();
     const [messageApi, contextHolder2] = message.useMessage();
@@ -31,8 +29,8 @@ const Product = () => {
             content: msg,
             style: {
                 marginTop: '7vh',
-                fontSize:"18px",
-                padding:"10px"
+                fontSize: "18px",
+                padding: "10px"
             },
         },
 
@@ -53,10 +51,6 @@ const Product = () => {
         }
     }
     const addProducTtoCart = async () => {
-        if (!isLogin) {
-            warning("Please Login For Adding in Cart")
-            return;
-        }
         try {
             await addToCart(user._id, { id: product._id, quantity: "1", price: product.price });
             dispatch(setAddCart({ id: product._id, quantity: "1", price: product.price }));
@@ -69,7 +63,7 @@ const Product = () => {
     }
 
 
-    
+
     useEffect(() => {
         getUserProduct();
         console.log(user.cart, id);
@@ -79,13 +73,24 @@ const Product = () => {
             }
         })
     }, [])
-   
+
     const handelAddCart = () => {
+        if (!isLogin) {
+            dispatch(setShowModel(true));
+            warning("Please Login For Adding in Cart")
+            console.log("not log in !!!!")
+            return;
+        }
         addProducTtoCart();
         setCartAllready(true);
 
     }
     const handelBuy = () => {
+        if (!isLogin) {
+            dispatch(setShowModel(true));
+            warning("Please Login For Buy Product")
+            return;
+        }
         navigate(`/cart/${data._id}`)
 
         dispatch(setProductPrice(parseInt(data.price)))
