@@ -28,12 +28,16 @@ const Login = ({ setlogin, handleCancel }) => {
         setOpen(false);
     };
 
+
+    //handling number or email input
     const handelOnChange = (e) => {
         isNaN(e.target.value) ? setNum(false) : setNum(true);
         e.target.maxlength = 10;
         setEmail(e.target.value);
 
     }
+
+    //On form submission for login
     const handelSubmit = async (e) => {
         e.preventDefault();
         // console.log(isNum,password,email)
@@ -67,7 +71,7 @@ const Login = ({ setlogin, handleCancel }) => {
         }
 
     }
-
+        //Continuing with Google
     const handelOnClickGoogle = async () => {
         try {
             const res = await signInWithGoogle();

@@ -19,17 +19,16 @@ const Navbar = () => {
     const admin = user.type === 'admin';
     const [query,setQuery]=useState("");
 
-    // const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
         dispatch(setShowModel(true));
-        // setIsModalOpen(true);
     };
 
     const handleCancel = () => {
         dispatch(setShowModel(false));
-        // setIsModalOpen(false);
     };
+
+    // Search data from mongodb and save in redux
     const handelSearch = async (e) => {
         e.preventDefault();
         try {
@@ -87,6 +86,8 @@ const Navbar = () => {
                         </div>
                     </div>
                 )}
+
+           
             <Modal width={1000} open={modalShow} onCancel={handleCancel} footer={[]}>
                 <Auth handleCancel={handleCancel} />
             </Modal>

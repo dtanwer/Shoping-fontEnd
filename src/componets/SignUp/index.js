@@ -14,10 +14,10 @@ const SignUp = ({ setlogin,success1 }) => {
   const [type, setType] = useState("user");
   const [messageApi, contextHolder] = message.useMessage();
 
-  const success = () => {
+  const warning = (msg) => {
     messageApi.open({
-      type: 'success',
-      content: 'Registration Successful',
+      type:"warning",
+      content:msg,
       style: {
         marginTop: '20vh',
       },
@@ -40,6 +40,10 @@ const SignUp = ({ setlogin,success1 }) => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
+      if(phone.trim()==="")
+      {
+        warning("Phone Number can not be empty");
+      }
       if(phone.length!==10)
       {
         error("Phone number length Should be 10");
