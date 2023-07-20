@@ -105,12 +105,15 @@ const Cart = () => {
 
   useEffect(() => {
     let cost = 0;
-    console.log(user.cart, "84");
     user.cart.map((item, i) => {
       cost += (parseInt(item?.price) * parseInt(item?.quantity))
     })
     setTotal(cost);
+    if(cost===0)
+    setDelevry(0);
   }, [isChange, user.cart])
+
+
 
   const getUserProduct = async (id) => {
     try {
