@@ -4,14 +4,14 @@ import { getProductsByCategory, getProductsForUsers } from '../../services/produ
 import { useDispatch } from 'react-redux';
 import { setProducts } from '../../features/userSlice';
 import { useNavigate } from 'react-router-dom';
-function CategoryCard({data}) {
-  const navigate=useNavigate()
+function CategoryCard({ data }) {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
-  const getProductsCategory=async ()=>{
+  const getProductsCategory = async () => {
     navigate('/catogory')
     try {
-      
-      const res=data.name==='All'?await getProductsForUsers():await getProductsByCategory(data.name.toLowerCase());
+
+      const res = data.name === 'All' ? await getProductsForUsers() : await getProductsByCategory(data.name.toLowerCase());
       dispatch(setProducts(res.data));
     } catch (error) {
       console.log(error);
@@ -19,8 +19,8 @@ function CategoryCard({data}) {
   }
   return (
     <div className='categoryCard' onClick={getProductsCategory}>
-        <img src={data.img} alt="imgCard" />
-        <h3>{data.name}</h3>
+      <img src={data.img} alt="imgCard" />
+      <h3>{data.name}</h3>
     </div>
   )
 }

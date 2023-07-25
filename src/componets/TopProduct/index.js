@@ -32,7 +32,7 @@ const TopProduct = () => {
                             if (!item.isDelete)
                                 return (
                                     // <ProductCard1 data={item} key={i} />
-                                    <div className='topProductCart' onClick={()=>navigate(`/product/${item._id}`)}>
+                                    <div className='topProductCart' onClick={()=>navigate(`/product/${item._id}`)}  key={i}>
                                         <img src={item.img} alt="img" />
                                         <p>{item.title.slice(0,30)}</p>  
                                         {

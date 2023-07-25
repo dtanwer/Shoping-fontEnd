@@ -38,7 +38,7 @@ const Profile = () => {
     };
     const [form] = Form.useForm();
     const updateProfile = async (values) => {
-        if(values?.password.trim()==="")
+        if(values?.password?.trim()==="")
         {
             warning("Password Can not be blank !!");
             return;
@@ -64,7 +64,7 @@ const Profile = () => {
 
     };
     const onFinishChangePassward = async (values) => {
-        if(values.newPassword.trim()==="")
+        if(values.newPassword==="")
         {
             warning("Password Can not be blank !!");
             form.setFieldsValue({ newPassword: ""});
@@ -100,7 +100,7 @@ const Profile = () => {
     };
 
     const updateName = () => {
-        if (name.trim() === "") {
+        if (name?.trim() === "") {
             setName("");
             warning("Input Name!!")
             return;
@@ -142,7 +142,7 @@ const Profile = () => {
 
     }
     const updateAddress = () => {
-        if (address.trim() === "") {
+        if (address?.trim() === "") {
             setAddress("")
             warning("Input Address !!")
             return;

@@ -7,13 +7,13 @@ import { removeUserCart, setCartQuantity, setTotalCart } from '../../features/us
 function CartCard({ id, checkOut, user, cart }) {
     const [messageApi, contextHolder] = message.useMessage();
 
-    const success = (msg) => {
-        messageApi.open({
-            type: 'success',
-            content: msg,
-            style:{fontSize:"20px" , marginTop:"8vh"}
-        });
-    };
+    // const success = (msg) => {
+    //     messageApi.open({
+    //         type: 'success',
+    //         content: msg,
+    //         style:{fontSize:"20px" , marginTop:"8vh"}
+    //     });
+    // };
     const warning = (msg) => {
         messageApi.open({
             type: 'warning',
@@ -58,7 +58,7 @@ function CartCard({ id, checkOut, user, cart }) {
         }
     }
     const handelRemoveCart = async () => {
-        success('Product Removed!');
+        message.success('Product Removed!');
         try {
             await removeToCart(user._id, { id })
             dispatch(removeUserCart({ id }))

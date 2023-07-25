@@ -66,7 +66,7 @@ const Product = () => {
 
     useEffect(() => {
         getUserProduct();
-        console.log(user.cart, id);
+        // console.log(user.cart, id);
         user?.cart?.map((item) => {
             if (id === item?.id) {
                 setCartAllready(true);

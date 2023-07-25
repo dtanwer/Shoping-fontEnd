@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import './index.css'
 import { Carousel, Image } from 'antd';
 function CarouselProduct({ data }) {
@@ -9,7 +9,7 @@ function CarouselProduct({ data }) {
                 {
                     data?.map((item, i) => {
                         return (
-                            <div className='imgDiv'>
+                            <div className='imgDiv' key={i}>
                                 <Image
                                     preview={{ visible: false }}
                                     width={800}
@@ -21,17 +21,17 @@ function CarouselProduct({ data }) {
                     })
                 }
             </Carousel>
-                <div style={{ display: 'none' }}>
-                    <Image.PreviewGroup preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}>
-                        {
-                             data?.map((item, i) => {
-                                return (
-                                    <Image src={item} />
-                                )
-                            })
-                        }
-                    </Image.PreviewGroup>
-                </div>
+            <div style={{ display: 'none' }}>
+                <Image.PreviewGroup preview={{ visible, onVisibleChange: (vis) => setVisible(vis) }}>
+                    {
+                        data?.map((item, i) => {
+                            return (
+                                <Image src={item} key={i} />
+                            )
+                        })
+                    }
+                </Image.PreviewGroup>
+            </div>
         </div>
     )
 }
