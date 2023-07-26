@@ -16,14 +16,14 @@ import { Spin } from 'antd';
 import Page404 from './componets/Page404';
 function App() {
   const user = useSelector((state) => state.auth.user)
-  const loading = useSelector((state) => state.auth.loading)
+  // const loading = useSelector((state) => state.auth.loading)
   return (
     <div className="App">
       
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />}>
-            {user.type === 'admin' ?
+            {user?.type === 'admin' ?
               <Route path='/' element={<DashBoard />} /> :
               <Route path='/' element={<MainPage />} />
             }
@@ -39,11 +39,11 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <div className='contentt'>
+      {/* <div className='contentt'>
       <Spin tip="Loading" size="large"  spinning={loading}>
         <div className="content" />
       </Spin>
-      </div>
+      </div> */}
     </div>
   );
 }

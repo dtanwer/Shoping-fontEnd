@@ -5,18 +5,19 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CardGiftcardOutlinedIcon from '@mui/icons-material/CardGiftcardOutlined';
 import Auth from '../../pages/Auth';
-import { setLogOut,setLoading, setShowModel,setProducts } from '../../features/userSlice';
+import { setLogOut } from '../../features/auth/auth.slice';
+import {getSearchProduct} from '../../features/product/product.action'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { searchProducts } from '../../services/product.service';
+import { setShowModel } from '../../features/loginModel/login.slice';
 const Navbar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
 
     const isLogin = useSelector((state) => state.auth.login);
     const user = useSelector((state) => state.auth.user);
-    const modalShow = useSelector((state) => state.auth.showModel);
-    const admin = user.type === 'admin';
+    const modalShow = useSelector((state) => state.loginModel.showModel);
+    const admin = user?.type === 'admin';
     const [query,setQuery]=useState("");
 
 
@@ -28,21 +29,10 @@ const Navbar = () => {
         dispatch(setShowModel(false));
     };
 
-    // Search data from mongodb and save in redux
     const handelSearch = async (e) => {
         e.preventDefault();
-        try {
-            dispatch(setLoading(true))
-            const res= await searchProducts(query);
-            console.log(res.data);
-            dispatch(setProducts(res.data));
-            dispatch(setLoading(false));
-            navigate('/catogory');
-
-        } catch (error) {
-            console.log(error)
-        }
-
+        dispatch(getSearchProduct(query))
+        navigate('/catogory');
     }
     return (
         <>
@@ -62,7 +52,7 @@ const Navbar = () => {
 
                     <div className="item" onClick={() => navigate('/')} >Home</div>
                     {
-                        user.type !== 'user' && isLogin && <div className="item" onClick={() => navigate('/dashboard')}>DashBoard</div>
+                        user?.type !== 'user' && isLogin && <div className="item" onClick={() => navigate('/dashboard')}>DashBoard</div>
                     }
 
                     {isLogin && <div className="item" onClick={() => navigate('/cart')}>

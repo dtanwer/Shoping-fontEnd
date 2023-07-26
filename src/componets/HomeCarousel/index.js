@@ -1,36 +1,31 @@
-import React, { Component, useEffect } from 'react';
+import {useEffect } from 'react';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import './index.css'
-import { getBanner } from '../../services/banner.service';
 import { useDispatch, useSelector } from 'react-redux';
-import { setBanner } from '../../features/userSlice';
+import { getBannerHome } from '../../features/banner/banner.action';
 const HomeCarousel = () => {
     const dispatch = useDispatch()
-    const data = useSelector((state) => state.auth.banner);
-    const getBannerData = async () => {
-        try {
-            const res = await getBanner()
-            dispatch(setBanner(res.data[0]))
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const data = useSelector((state) => state.banner.banner);
+    
     useEffect(() => {
-        getBannerData()
+       dispatch(getBannerHome())
     }, [])
     return (
         <Carousel>
+            
             {
-               data?.images?.map((item, i) => {
+               data[0]?.images?.map((item, i) => {
+                console.log(item,"img")
                     return (
                         <div className='myItem' key={i}>
-                            <img src={item} alt='banner' />
+                            <img src='http://localhost:5000/1690199733608-3.jpg' alt='banner' />
                         </div>
                     )
                 })
             }
         </Carousel>
+       
     )
 }
 

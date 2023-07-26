@@ -3,7 +3,7 @@ import './index.css'
 import { Button, Form, Input, Upload, message } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
 import { updateClientPhone, updateUser } from '../../services/client.service';
-import { setUser } from '../../features/userSlice';
+import { setUser } from '../../features/auth/auth.slice';
 const Profile = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const user = useSelector((state) => state.auth.user)

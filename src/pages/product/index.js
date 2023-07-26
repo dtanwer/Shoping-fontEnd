@@ -6,7 +6,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { addToCart, getProduct } from '../../services/product.service';
 import { notification, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAddCart, setProductPrice, setShowModel, setTotalCart } from '../../features/userSlice';
+import { setAddCart, setProductPrice, setTotalCart } from '../../features/auth/auth.slice';
+import {setShowModel} from '../../features/loginModel/login.slice'
 const Product = () => {
     const [api, contextHolder1] = notification.useNotification();
     const [messageApi, contextHolder2] = message.useMessage();

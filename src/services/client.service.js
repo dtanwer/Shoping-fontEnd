@@ -1,3 +1,4 @@
 import axios from "axios";
-export const updateUser=  (data,id)=>axios.put(`http://localhost:5000/auth/update/${id}`,data);
-export const updateClientPhone=  (data,id)=>axios.put(`http://localhost:5000/auth/phone/${id}`,data);
+const url=process.env.REACT_APP_SERVER_URL;
+export const updateUser=  (data,id)=>axios.put(`${url}/auth/update/${id}`,data);
+export const updateClientPhone=  (data,id)=>axios.put(`${url}/auth/phone/${id}`,data);

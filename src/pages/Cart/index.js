@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import CartCard from '../../componets/cartCard';
 import { Modal, Empty,message } from 'antd';
 import AddAddress from '../../componets/AddAddress';
-import { removeUserCart, setAddress } from '../../features/userSlice';
+import { removeUserCart, setAddress } from '../../features/auth/auth.slice';
 import { addAddresToUser, addOrders, getProduct, addToCart, removeToCart, updateMyProduct } from '../../services/product.service';
 import { useNavigate, useParams } from 'react-router-dom';
 const Cart = () => {

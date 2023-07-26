@@ -1,24 +1,18 @@
 import React from 'react'
 import './index.css'
-import { getProductsByCategory, getProductsForUsers } from '../../services/product.service'
-import { useDispatch } from 'react-redux';
-import { setProducts } from '../../features/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import { useNavigate} from 'react-router-dom';
+import { getProducts} from '../../features/product/product.action';
 function CategoryCard({ data }) {
   const navigate = useNavigate()
   const dispatch = useDispatch();
-  const getProductsCategory = async () => {
+  const handelClickCategory = async () => {
     navigate('/catogory')
-    try {
-
-      const res = data.name === 'All' ? await getProductsForUsers() : await getProductsByCategory(data.name.toLowerCase());
-      dispatch(setProducts(res.data));
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(getProducts(data.name.toLowerCase()))
   }
+
   return (
-    <div className='categoryCard' onClick={getProductsCategory}>
+    <div className='categoryCard' onClick={handelClickCategory}>
       <img src={data.img} alt="imgCard" />
       <h3>{data.name}</h3>
     </div>

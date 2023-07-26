@@ -3,7 +3,7 @@ import { getProduct, removeToCart } from '../../services/product.service';
 import './index.css';
 import { message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { removeUserCart, setCartQuantity, setTotalCart } from '../../features/userSlice';
+import { removeUserCart, setCartQuantity, setTotalCart } from '../../features/auth/auth.slice';
 function CartCard({ id, checkOut, user, cart }) {
     const [messageApi, contextHolder] = message.useMessage();
 

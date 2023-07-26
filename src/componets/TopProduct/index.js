@@ -1,23 +1,29 @@
 import React, { useEffect } from 'react'
-import ProductCard1 from '../productCard1'
+// import ProductCard1 from '../productCard1'
 import './index.css';
 import { Empty } from 'antd';
-import { getTopProductForUser } from '../../services/product.service'
+// import { getTopProductForUser } from '../../services/product.service'
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getTopProducts } from '../../features/product/product.action';
+import { useDispatch, useSelector } from 'react-redux';
 const TopProduct = () => {
-    const [products, setProducts] = useState([])
-    const getTopProducts = async () => {
-        try {
-            const res = await getTopProductForUser();
-            setProducts(res.data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const dispatch=useDispatch()
+    const products=useSelector((state)=>state.product.topProducts)
+    // const [products, setProducts] = useState([])
+    // const getTopProducts = async () => {
+    //     try {
+    //         const res = await getTopProductForUser();
+    //         setProducts(res.data)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     useEffect(() => {
-        getTopProducts();
+        // getTopProducts();
+        dispatch(getTopProducts())
+       
     }, [])
     const navigate=useNavigate();
     return (

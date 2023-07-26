@@ -1,7 +1,8 @@
 import axios from "axios";
-export const loginUser=  (data)=>axios.post('http://localhost:5000/auth/login',data);
-export const signUpUser=  (data)=>axios.post('http://localhost:5000/auth/signup',data);
-export const checkUser=  (data)=>axios.post('http://localhost:5000/auth/check',data);
-export const getAllUser=  ()=>axios.get('http://localhost:5000/auth/user');
-export const getAllVendor=  ()=>axios.get('http://localhost:5000/auth/vendor');
+const url=process.env.REACT_APP_SERVER_URL;
+export const loginUser=  (data)=>axios.post(`${url}/auth/login`,data);
+export const signUpUser=  (data)=>axios.post(`${url}/auth/signup`,data);
+export const checkUser=  (data)=>axios.post(`${url}/auth/check`,data);
+export const getAllUser=  ()=>axios.get(`${url}/auth/user`);
+export const getAllVendor=  ()=>axios.get(`${url}/auth/vendor`);
 // export const getUser=(id)=>axios.get(`http://localhost:5000/auth/user/${id}`);

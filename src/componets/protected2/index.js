@@ -4,7 +4,7 @@ const Protected2= ({ children }) => {
 //   const navigate = useNavigate();
 //   const isLoggedIn = useSelector((state) => state.auth.login)
   const user = useSelector((state) => state.auth.user)
-  if (user.type==="admin") {
+  if (user?.type==="admin") {
     return <Navigate to="/" replace />;
   }
   return children;

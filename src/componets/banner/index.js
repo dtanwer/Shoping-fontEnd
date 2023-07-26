@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Upload,message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBanner, postBanner, updateBanner } from '../../services/banner.service';
-import { setBanner } from '../../features/userSlice';
+import { setBanner } from '../../features/banner/banner.slice';
 function Bannner() {
     const [messageApi, contextHolder] = message.useMessage();
 
